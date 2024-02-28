@@ -31,9 +31,8 @@ root.render(
             locale={vi_VN}
             theme={{
               token: {
-                colorPrimary: "#046c39",
-                colorPrimaryBorder: "#046c39",
-                colorPrimaryHover: "#b4ddc194",
+                colorPrimary: "#167fff",
+              
               },
             }}
           >
