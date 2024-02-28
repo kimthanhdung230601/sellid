@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import Layout from "../pages/layout/Layout";
+import Layout from "../pages/admin/layout/Layout";
 
 const Wrapper = () => {
   return (
