@@ -114,7 +114,7 @@ const Home = () => {
         </div>
         <div className={styles.table}>
           {" "}
-          <Table columns={columns} dataSource={data} />
+          <Table columns={columns} dataSource={data} style={{ overflowX: "auto" }} />
         </div>
       </div>
     </>

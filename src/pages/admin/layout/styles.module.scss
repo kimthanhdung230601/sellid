@@ -25,7 +25,10 @@
   .wraps{
     margin: 0 30vh;
   }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 992px) {
+    .headerItem{
+      margin: 0 12px;
+    }
     .wraps{
       margin: 0 3vh;
     }
