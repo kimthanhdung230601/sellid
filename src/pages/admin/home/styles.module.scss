@@ -1,0 +1,14 @@
+.btn {
+  float: right;
+  margin-bottom: 3vh;
+}
+.input {
+  // margin-bottom: 3vh;
+  margin: 0 30vh 3vh 30vh;
+}
+@media screen and (max-width: 992px) {
+    
+  .input {
+    margin: 0 0 3vh 0;
+  }
+}
