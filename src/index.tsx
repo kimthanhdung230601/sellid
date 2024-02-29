@@ -29,6 +29,12 @@ root.render(
         <QueryClientProvider client={queryClient}>
           <ConfigProvider
             locale={vi_VN}
+            theme={{
+              token: {
+                colorPrimary: "#167fff",
+              
+              },
+            }}
           >
             <QueryClientProvider client={queryClient}>
               <BrowserRouter>

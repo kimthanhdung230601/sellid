@@ -1,0 +1,45 @@
+.wrap{
+    overflow-x: hidden;
+}
+
+.container{
+    padding: 140px 10.72% 71px 10.72%;
+}
+
+.row{
+    flex-wrap: wrap;
+}
+
+.filter{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.category{
+    cursor: pointer;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.categoryName{
+    margin-left: 0;
+    &:hover{
+        font-weight: 500;
+        margin-left: 8px;
+        color: #167fff;
+        transition: margin ease 0.3s;
+    }
+    &:not(hover) {
+        font-weight: 400;
+        margin-left: 0px;
+        color: #000;
+        transition: margin ease 0.3s;
+    }
+}
+
+
+

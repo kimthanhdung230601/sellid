@@ -1,9 +1,14 @@
 import { Route, Routes } from "react-router-dom";
+
 import Layout from "../pages/admin/layout/Layout";
 import Home from "../pages/admin/home/home";
 import Product from "../pages/admin/addNew/product";
 import Profile from "../pages/admin/profile/profile";
 import LogIn from "../pages/user/log/log";
+import Account from "../pages/Account";
+import Home from "../pages/Home";
+import Layout from "../pages/layout/Layout";
+
 
 const Wrapper = () => {
   return (
@@ -14,9 +19,11 @@ const Wrapper = () => {
           <Route path="/admin/product"  element={<Product/>}/>
           <Route path="/admin/profile" element={<Profile/>}/>
         </Route>
-        <Route path="/" >
+        <Route path="/" element={<Home/>} >
           <Route path="/logIn" element={<LogIn/>} />
+          <Route path="/tai-khoan" element={<Account/>} /> 
         </Route>
+      
       </Routes>
     </>
   );
