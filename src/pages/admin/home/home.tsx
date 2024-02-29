@@ -14,7 +14,7 @@ interface DataType {
   state: string;
 }
 
-const Home = () => {
+const HomeAdmin = () => {
   const columns: TableProps<DataType>["columns"] = [
     {
       title: "STT",
@@ -121,4 +121,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomeAdmin;

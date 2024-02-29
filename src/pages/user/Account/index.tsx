@@ -1,8 +1,8 @@
 import { CheckCircleOutlined } from "@ant-design/icons";
 import styles from "./Account.module.scss";
 import { Col, Image, Row, Table } from "antd";
-import Header from "../../components/user/Header";
-import { formatCurrency } from "../../constant/currencyFormatter";
+import Header from "../../../components/user/Header";
+import { formatCurrency } from "../../../constant/currencyFormatter";
 
 function Account() {
   return (
@@ -16,7 +16,7 @@ function Account() {
                     <div className={styles.abountImgWrap}>
                       <img
                         className={styles.aboutImg}
-                        src={require("../../assets/image/logo.png")}
+                        src={require("../../../assets/image/logo.png")}
                       />
                     </div>
                     <div className={styles.aboutTick}>
@@ -44,7 +44,7 @@ function Account() {
               <Col span={14} xxl={14} lg={14} md={24} sm={24} xs={24} className={styles.inforWrap}>
                     <div className={styles.title}>Nạp tiền</div>
                     <div className={styles.infor}>
-                        <Image src={require("../../assets/image/qr.jpg")} className={styles.inforImg} width={"30%"}/>
+                        <Image src={require("../../../assets/image/qr.jpg")} className={styles.inforImg} width={"30%"}/>
                         <div className={styles.inforBank}>
                             <div className={styles.inforItem}>
                                 <div className={styles.name}>Ngân hàng</div>
