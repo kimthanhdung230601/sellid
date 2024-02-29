@@ -6,8 +6,7 @@ import Product from "../pages/admin/addNew/product";
 import Profile from "../pages/admin/profile/profile";
 import LogIn from "../pages/user/log/log";
 import Account from "../pages/Account";
-import Home from "../pages/Home";
-import Layout from "../pages/layout/Layout";
+
 
 
 const Wrapper = () => {
