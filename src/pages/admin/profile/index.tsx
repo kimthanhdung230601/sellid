@@ -4,6 +4,7 @@ import { useForm } from "antd/es/form/Form";
 import { useQuery } from "react-query";
 import { getCategories } from "../../../api/admin";
 import Bank from "./bank";
+import Transaction from "./transaction";
 interface ProfileProps {}
 
 const Profile = () => {
@@ -76,7 +77,10 @@ const Profile = () => {
         </Form>
       </div>
       <div className={styles.bankWrapper}>
-        <Bank/>
+        <Bank />
+      </div>
+      <div className={styles.transactionWrapper}>
+        <Transaction />
       </div>
     </>
   );

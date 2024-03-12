@@ -24,7 +24,7 @@ const Layout = () => {
         <div
           onClick={() => handleItemClick("")}
           className={`${styles.headerItem} ${
-            selectedItem == "" ? styles.selected : ""
+            window.location.pathname.match(/admin(\/|$)/)? styles.selected : ""
           }`}
         >
           <span className={styles.text}>Trang chủ </span>
@@ -32,7 +32,7 @@ const Layout = () => {
         <div
           onClick={() => handleItemClick("product")}
           className={`${styles.headerItem} ${
-            selectedItem == "product" ? styles.selected : ""
+            window.location.pathname.includes("/admin/product") ? styles.selected : ""
           }`}
         >
           <span className={styles.text}>Thêm Folder</span>
@@ -40,7 +40,7 @@ const Layout = () => {
         <div
           onClick={() => handleItemClick("profile")}
           className={`${styles.headerItem} ${
-            selectedItem == "profile" ? styles.selected : ""
+            window.location.pathname.includes("/admin/profile") ? styles.selected : ""
           }`}
         >
           <span className={styles.text}>Quản lý</span>
@@ -48,7 +48,7 @@ const Layout = () => {
         <div
           onClick={() => handleItemClick("user")}
           className={`${styles.headerItem} ${
-            selectedItem == "user" ? styles.selected : ""
+            window.location.pathname.includes("/admin/user") ? styles.selected : ""
           }`}
         >
           <span className={styles.text}>User</span>

@@ -19,9 +19,9 @@ const getBase64 = (file: FileType): Promise<string> =>
 
 const Product = () => {
   const { data: categories } = useQuery("categories", () => getCategories());
-  const antdOptions = categories?.data.map((item:any) => ({
+  const antdOptions = categories?.data.map((item: any) => ({
     value: item.name,
-    label: item.name
+    label: item.name,
   }));
   const [form] = Form.useForm();
   const onFinish = (value: any) => {
@@ -48,7 +48,7 @@ const Product = () => {
 
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
     setFileList(newFileList);
-  console.log("fileList", fileList);
+  // console.log("fileList", fileList);
 
   const uploadButton = (
     <button style={{ border: 0, background: "none" }} type="button">
@@ -81,7 +81,6 @@ const Product = () => {
                   { required: true, message: "Vui lòng điền chuyên mục" },
                 ]}
               >
-                {/* <Input /> */}
                 <Select options={antdOptions} />
               </Form.Item>
             </Col>
@@ -90,6 +89,7 @@ const Product = () => {
             <Form.Item
               label="Tải ảnh lên tại đây"
               valuePropName="fileList"
+              name="image"
               //   getValueFromEvent={normFile}
             >
               <Upload
@@ -99,7 +99,7 @@ const Product = () => {
                 onPreview={handlePreview}
                 onChange={handleChange}
               >
-                {fileList.length >= 8 ? null : uploadButton}
+                {uploadButton}
               </Upload>
               <Modal
                 open={previewOpen}
