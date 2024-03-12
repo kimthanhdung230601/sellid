@@ -1,6 +1,8 @@
 import { Button, Col, Form, Input, Row } from "antd";
 import styles from "./styles.module.scss";
 import { useForm } from "antd/es/form/Form";
+import { useQuery } from "react-query";
+import { getCategories } from "../../../api/admin";
 interface ProfileProps {}
 
 const Profile = () => {

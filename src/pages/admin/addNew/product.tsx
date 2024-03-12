@@ -1,9 +1,11 @@
-import { Button, Col, Form, Input, Row, Upload, Modal } from "antd";
+import { Button, Col, Form, Input, Row, Upload, Modal, Select } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 
 import styles from "./styles.module.scss";
 import type { GetProp, UploadFile, UploadProps } from "antd";
 import { useState } from "react";
+import { useQuery } from "react-query";
+import { getCategories } from "../../../api/admin";
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
 interface ProductProps {}
@@ -14,7 +16,13 @@ const getBase64 = (file: FileType): Promise<string> =>
     reader.onload = () => resolve(reader.result as string);
     reader.onerror = (error) => reject(error);
   });
+
 const Product = () => {
+  const { data: categories } = useQuery("categories", () => getCategories());
+  const antdOptions = categories?.data.map((item:any) => ({
+    value: item.name,
+    label: item.name
+  }));
   const [form] = Form.useForm();
   const onFinish = (value: any) => {
     console.log("value: ", value);
@@ -73,7 +81,8 @@ const Product = () => {
                   { required: true, message: "Vui lòng điền chuyên mục" },
                 ]}
               >
-                <Input />
+                {/* <Input /> */}
+                <Select options={antdOptions} />
               </Form.Item>
             </Col>
           </Row>

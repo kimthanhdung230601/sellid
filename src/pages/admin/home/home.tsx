@@ -5,6 +5,7 @@ import type { SearchProps } from "antd/es/input/Search";
 import { useQuery } from "react-query";
 import { getListProduct } from "../../../api/admin";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 const { Search } = Input;
 interface HomeProps {}
@@ -18,6 +19,7 @@ interface DataType {
 }
 
 const HomeAdmin = () => {
+  const navigate = useNavigate();
   const {
     data: product,
     isLoading,
@@ -107,7 +109,7 @@ const HomeAdmin = () => {
       </div>
       <div className={styles.tablWrap}>
         <div className={styles.btn}>
-          <Button type="primary">Thêm mới</Button>
+          <Button type="primary" onClick={()=>navigate("./product")}>Thêm mới</Button>
         </div>
         <div className={styles.table}>
           {" "}
