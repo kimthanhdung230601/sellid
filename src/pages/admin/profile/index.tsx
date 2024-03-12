@@ -3,6 +3,7 @@ import styles from "./styles.module.scss";
 import { useForm } from "antd/es/form/Form";
 import { useQuery } from "react-query";
 import { getCategories } from "../../../api/admin";
+import Bank from "./bank";
 interface ProfileProps {}
 
 const Profile = () => {
@@ -13,6 +14,7 @@ const Profile = () => {
   return (
     <>
       <h1 className={styles.title}>QUẢN LÝ</h1>
+      <h3 className={styles.title}>Tài khoản cá nhân</h3>
       <div className={styles.profileWrap}>
         <Form
           form={form}
@@ -72,6 +74,9 @@ const Profile = () => {
             </Button>
           </Form.Item>
         </Form>
+      </div>
+      <div className={styles.bankWrapper}>
+        <Bank/>
       </div>
     </>
   );

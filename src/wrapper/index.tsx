@@ -2,7 +2,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import Layout from "../pages/admin/layout/Layout";
 import HomeAdmin from "../pages/admin/home/home";
 import Product from "../pages/admin/addNew/product";
-import Profile from "../pages/admin/profile/profile";
+import Profile from "../pages/admin/profile";
 import LogIn from "../pages/user/log";
 import Account from "../pages/user/Account";
 import Home from "../pages/user/Home";

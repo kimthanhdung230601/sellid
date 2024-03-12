@@ -43,7 +43,7 @@ const Layout = () => {
             selectedItem == "profile" ? styles.selected : ""
           }`}
         >
-          <span className={styles.text}>Admin</span>
+          <span className={styles.text}>Quản lý</span>
         </div>
         <div
           onClick={() => handleItemClick("user")}

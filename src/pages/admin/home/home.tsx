@@ -38,11 +38,6 @@ const HomeAdmin = () => {
       key: "namefolder",
     },
     {
-      title: "Số lượng",
-      dataIndex: "amount",
-      key: "amount",
-    },
-    {
       title: "Chuyên mục",
       dataIndex: "category",
       key: "category",
@@ -109,7 +104,9 @@ const HomeAdmin = () => {
       </div>
       <div className={styles.tablWrap}>
         <div className={styles.btn}>
-          <Button type="primary" onClick={()=>navigate("./product")}>Thêm mới</Button>
+          <Button type="primary" onClick={() => navigate("./product")}>
+            Thêm mới
+          </Button>
         </div>
         <div className={styles.table}>
           {" "}
