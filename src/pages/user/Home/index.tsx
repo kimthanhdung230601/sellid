@@ -3,7 +3,16 @@ import React from 'react'
 import Header from '../../../components/user/Header'
 import Product from '../../../components/user/Product'
 import style from "./Home.module.scss"
+import { useQuery } from 'react-query'
+import { getCategories } from '../../../api/admin'
 export default function Home() {
+  const {
+    data: product,
+    isLoading,
+    isFetching,
+    refetch,
+  } = useQuery(["categories"], () => getCategories());
+  
   return (
     <div className={style.wrap}>
       <Header />

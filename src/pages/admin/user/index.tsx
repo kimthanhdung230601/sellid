@@ -3,27 +3,33 @@ import styles from "./styles.module.scss";
 import { SearchOutlined } from "@ant-design/icons";
 import type { SearchProps } from "antd/es/input/Search";
 import { useQuery } from "react-query";
-import { getListProduct } from "../../../api/admin";
+import { getListProduct, getListUser } from "../../../api/admin";
 import { useState } from "react";
+import Cookies from "js-cookie";
 
 const { Search } = Input;
 interface HomeProps {}
 interface DataType {
   key: string;
-  nameFolder: string;
-  amount: number;
-  categories: string;
-  price: number;
-  state: string;
+  namefolder: string;
+  username: number;
+  fullname: string;
+  phone: number;
+  gmail: string;
+  active: string;
 }
 
-const HomeAdmin = () => {
+const UserAdmin = () => {
   const {
-    data: product,
+    data: userList,
     isLoading,
     isFetching,
     refetch,
-  } = useQuery(["product"], () => getListProduct(1));
+  } = useQuery(["userList"], () => getListUser());
+  console.log(Cookies.get("token"));
+
+  console.log("userList", userList);
+
   const columns: TableProps<DataType>["columns"] = [
     {
       title: "STT",
@@ -31,57 +37,54 @@ const HomeAdmin = () => {
       key: "id",
     },
     {
-      title: "Tên folder",
-      dataIndex: "namefolder",
-      key: "namefolder",
+      title: "Tên người dùng",
+      dataIndex: "username",
+      key: "username",
+    },
+    // {
+    //   title: "Mật khẩu",
+    //   dataIndex: "password",
+    //   key: "password",
+    // },
+    {
+      title: "Họ tên",
+      dataIndex: "fullname",
+      key: "fullname",
     },
     {
-      title: "Số lượng",
-      dataIndex: "amount",
-      key: "amount",
+      title: "Số điện thoại",
+      dataIndex: "phone",
+      key: "phone",
     },
     {
-      title: "Chuyên mục",
-      dataIndex: "category",
-      key: "category",
+      title: "Gmail",
+      dataIndex: "email",
+      key: "email",
     },
     {
-      title: "Giá",
-      dataIndex: "price",
-      key: "price",
-    },
-    {
-      title: "Mô tả",
-      dataIndex: "description",
-      key: "description",
-    },
-    {
-      title: "Tình trạng",
-      dataIndex: "state",
-      key: "state",
+      title: "Tình trạng HD",
+      dataIndex: "active",
+      key: "active",
       render: (text, record) => (
-        <span style={{ color: record.state === "Đã bán" ? "red" : "#1677ff" }}>
-          {text}
+        <span style={{ color: record.active === "0" ? "red" : "#1677ff" }}>
+          {text === "0" ? "Dừng HD" : "Đang HD"}
         </span>
       ),
     },
     {
       title: "",
       key: "action",
-      render: (_, record: any) => (
+      render: (text, record: any) => (
         <Space size="middle">
-          <Button
-            style={{
-              backgroundColor:
-                record.state === "Đã bán" ? "#C6C6C6" : "#1677FF",
-              color: "#FFFF",
-            }}
-          >
-            Sửa
-          </Button>
-          <Button type="primary" danger>
-            Xóa
-          </Button>
+          {record.active === "0" ? (
+            <></>
+          ) : (
+            <>
+              <Button type="primary" danger>
+                Ban TK
+              </Button>
+            </>
+          )}
         </Space>
       ),
     },
@@ -106,14 +109,11 @@ const HomeAdmin = () => {
         </div>
       </div>
       <div className={styles.tablWrap}>
-        <div className={styles.btn}>
-          <Button type="primary">Thêm mới</Button>
-        </div>
         <div className={styles.table}>
           {" "}
           <Table
             columns={columns}
-            dataSource={product?.data}
+            dataSource={userList?.data}
             style={{ overflowX: "auto" }}
             pagination={{
               defaultCurrent: 1,
@@ -126,4 +126,4 @@ const HomeAdmin = () => {
   );
 };
 
-export default HomeAdmin;
+export default UserAdmin;

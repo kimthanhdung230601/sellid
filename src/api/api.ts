@@ -1,15 +1,22 @@
 import Axios from "axios";
-// import config from "../config/config";
+import configs from "../config";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 const axiosInstance = Axios.create({
-  // timeout: 3 * 60 * 1000,
-  // baseURL: config.API_DOMAIN,
+  timeout: 3 * 60 * 1000,
+  baseURL: configs.API_DOMAIN,
 });
-
+export const logout = () => {
+  const allCookies = Cookies.get();
+  Object.keys(allCookies).forEach((cookieName) => {
+    Cookies.remove(cookieName);
+  });
+  localStorage.clear();
+};
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = Cookies.get("token");
+    // config.headers.Authorization ="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMCIsImlzQWRtaW4iOiIxIiwiZXhwIjoxNzEwNjE0MjE0fQ._Wmp_qrWWng6_vjiRKzkkrw_X27zjDdJcBvtKojZYIo";
     if (token) {
       config.headers.Authorization = `${token}`;
     }
@@ -17,7 +24,7 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error) => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     // navigate("/logout");
   }
 );
