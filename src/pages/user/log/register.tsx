@@ -11,7 +11,6 @@ const Register = () => {
   const onFinish = async (value: any) => {
     const payload = value;
     const res = await signUp(payload);
-    console.log("res", res?.data);
     if(res.data.status === "success") navigate("/");
   };
   const validatePassword = ({ getFieldValue }: any) => ({

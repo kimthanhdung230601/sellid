@@ -1,23 +1,29 @@
 import {
   Button,
   Input,
+  Pagination,
   PaginationProps,
+  Popconfirm,
   Space,
+  Spin,
   Table,
   TableColumnsType,
   TableProps,
+  message,
 } from "antd";
 import styles from "./styles.module.scss";
 import { SearchOutlined } from "@ant-design/icons";
 import type { SearchProps } from "antd/es/input/Search";
 import { useQuery } from "react-query";
 import {
+  deleteProduct,
   getCategories,
   getListProduct,
   getListProductNoCate,
 } from "../../../api/admin";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import ModalDetailProducts from "../../../components/admin/modalDetail";
 
 const { Search } = Input;
 interface HomeProps {}
@@ -32,21 +38,43 @@ interface DataType {
 
 const HomeAdmin = () => {
   const navigate = useNavigate();
-  const [page, setPage] = useState("1");
-  const [categorySelected, setCategorySelect] = useState();
-  const { data: product, refetch } = useQuery(
-    ["product", categorySelected],
-    () => {
-      if (categorySelected == undefined) {
-        return getListProductNoCate(page);
-      } else return getListProduct(page, categorySelected);
-    }
-  );
+  const [page, setPage] = useState(1);
+  // const [categorySelected, setCategorySelect] = useState();
+
+  const {
+    data: product,
+    refetch,
+    isFetching,
+  } = useQuery(["product"], () => getListProductNoCate(page));
   const { data: categories } = useQuery("categories", () => getCategories());
   const categoriesMap = categories?.data.map((item: any) => ({
     value: item.id,
     text: item.name,
   }));
+  const confirm = (idProduct: any) => {
+    const payload = {
+      idproduct: idProduct,
+    };
+    const res = deleteProduct(payload);
+    message.success("Xóa thành công");
+    refetch();
+  };
+
+  const cancel = (e: any) => {};
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [image, setImage] = useState();
+  const showModal = (value: any) => {
+    setIsModalOpen(true);
+    setImage(value);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   const columns: TableColumnsType<DataType> = [
     {
       title: "STT",
@@ -65,8 +93,6 @@ const HomeAdmin = () => {
       key: "category",
       filters: categoriesMap,
       onFilter: (value: any, record) => {
-        // setCategorySelect(value);
-        // refetch();
         return record.category.startsWith(value);
       },
       render: (text: any) => {
@@ -107,35 +133,36 @@ const HomeAdmin = () => {
               color: "#FFFF",
             }}
             disabled={record.sell === "1"}
+            onClick={() => showModal(record.image)}
           >
-            Sửa
+            Xem
           </Button>
-          <Button type="primary" danger>
-            Xóa
-          </Button>
+          <Popconfirm
+            title="Xóa"
+            description="Bạn có muốn xóa folder này không?"
+            onConfirm={() => confirm(record.id)}
+            onCancel={cancel}
+            // okText="Yes"
+            // cancelText="No"
+          >
+            <Button type="primary" danger>
+              Xóa
+            </Button>
+          </Popconfirm>
         </Space>
       ),
     },
   ];
-  const onSearch: SearchProps["onSearch"] = (value, _e, info) =>
-    console.log(info?.source, value);
-
-  const onChange: PaginationProps["onChange"] = (page: any) => {
-    // console.log(page);
-    setPage(page);
+  useEffect(() => {
     refetch();
+  }, [page]);
+  const onChange = (value: any) => {
+    setPage(value);
   };
 
   return (
     <>
       <div className={styles.wrapSearch}>
-        <div className={styles.input}>
-          <Search
-            placeholder="Tìm kiếm tại đây"
-            onSearch={onSearch}
-            size="large"
-          />
-        </div>
       </div>
       <div className={styles.tablWrap}>
         <div className={styles.btn}>
@@ -143,22 +170,9 @@ const HomeAdmin = () => {
             Thêm mới
           </Button>
         </div>
-        <div className={styles.table}>
-          {" "}
-          {product?.status === "failed" ? (
-            <>
-              {" "}
-              <Table
-                columns={columns}
-                dataSource={[]}
-                style={{ overflowX: "auto" }}
-                pagination={{
-                  defaultCurrent: 1,
-                  onChange: onChange,
-                }}
-              />
-            </>
-          ) : (
+        <Spin spinning={isFetching}>
+          <div className={styles.table}>
+            {" "}
             <>
               {" "}
               <Table
@@ -168,12 +182,20 @@ const HomeAdmin = () => {
                 pagination={{
                   defaultCurrent: 1,
                   onChange: onChange,
+                  total: product?.total_pages + 10,
                 }}
+                // <Pagination/>
               />
             </>
-          )}
-        </div>
+          </div>
+        </Spin>
       </div>
+      <ModalDetailProducts
+        isModalOpen={isModalOpen}
+        handleCancel={handleCancel}
+        handleOk={handleOk}
+        image={image}
+      />
     </>
   );
 };

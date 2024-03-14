@@ -86,24 +86,21 @@ const UserAdmin = () => {
       ),
     },
   ];
-  const onSearch: SearchProps["onSearch"] = (value, _e, info) =>
-    console.log(info?.source, value);
   const [current, setCurrent] = useState(3);
 
   const onChange: PaginationProps["onChange"] = (page: any) => {
-    console.log(page);
     setCurrent(page);
   };
   return (
     <>
       <div className={styles.wrapSearch}>
-        <div className={styles.input}>
+        {/* <div className={styles.input}>
           <Search
             placeholder="Tìm kiếm tại đây"
             onSearch={onSearch}
             size="large"
           />
-        </div>
+        </div> */}
       </div>
       <div className={styles.tablWrap}>
         <div className={styles.table}>

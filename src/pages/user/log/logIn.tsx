@@ -11,7 +11,7 @@ const LogInComponent = () => {
   const navigate = useNavigate();
 
   const onFinish = async (value: any) => {
-    // console.log("value", value);
+
     try {
       const payload = {
         username: value.username,

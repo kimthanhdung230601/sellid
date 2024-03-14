@@ -12,3 +12,4 @@ export const getListBank = () => sendGet(`API/Bank`);
 export const getTransaction = (payload: any) =>
   sendGet(`API/Transaction?page=${payload}`);
 export const postAddProduct = (payload:any)=> sendPost(`API/UpImage`,payload);
+export const deleteProduct = (payload:any)=>sendPost(`API/DeleteProduct`,payload)

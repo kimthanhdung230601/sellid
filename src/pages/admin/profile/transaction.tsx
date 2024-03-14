@@ -40,11 +40,12 @@ const Transaction = () => {
   const { data: transaction, refetch } = useQuery(["Transaction"], () =>
     getTransaction(pagination)
   );
-  const onChange: PaginationProps["onChange"] = (page: any) => {
-    console.log(page);
+  const onChange = (page: any) => {
     setPagination(page);
-    refetch();
   };
+  useEffect(() => {
+    refetch();
+  }, [pagination]);
   return (
     <>
       {" "}
@@ -55,9 +56,9 @@ const Transaction = () => {
         pagination={{
           defaultCurrent: 1,
           onChange: onChange,
+          total: transaction?.total_pages + 10,
         }}
       />
-      
     </>
   );
 };

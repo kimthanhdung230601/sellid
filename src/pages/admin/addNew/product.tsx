@@ -1,4 +1,14 @@
-import { Button, Col, Form, Input, Row, Upload, Modal, Select } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Row,
+  Upload,
+  Modal,
+  Select,
+  message,
+} from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 
 import styles from "./styles.module.scss";
@@ -7,6 +17,9 @@ import { useState } from "react";
 import { useQuery } from "react-query";
 import { getCategories, postAddProduct } from "../../../api/admin";
 import TextArea from "antd/es/input/TextArea";
+import CryptoJS from "crypto-js";
+import { MD5 } from "crypto-js";
+
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
 interface ProductProps {}
@@ -48,10 +61,9 @@ const Product = () => {
 
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
     setFileList(newFileList);
+
   // ------------------------onFinish------------------------------
   const onFinish = async (value: any) => {
-    console.log("value", value);
-
     try {
       const formData = new FormData();
       formData.append("namefolder", value.namefolder);
@@ -60,23 +72,25 @@ const Product = () => {
       formData.append("description", value.description);
 
       fileList.forEach((file, index) => {
-        formData.append(`images[${index}]`, file.originFileObj as File);
+        const hashedFileName = CryptoJS.MD5(value).toString();
+        formData.append(
+          `images[${index}]`,
+          file.originFileObj as File,
+          hashedFileName
+        );
       });
-
-      // console.log("formData", formData);
       const res = await postAddProduct(formData);
-      alert("Tải folder lên thành công");
-      // console.log("res", res);
-    } catch (error) {
-      console.log(error);
-    }
+      message.success("Thêm thành công");
+    } catch (error) {}
   };
+
   const uploadButton = (
     <button style={{ border: 0, background: "none" }} type="button">
       <PlusOutlined />
       <div style={{ marginTop: 8 }}>Upload</div>
     </button>
   );
+
   return (
     <>
       <h1 className={styles.title}>THÊM FOLDER</h1>
@@ -129,7 +143,6 @@ const Product = () => {
               label="Tải ảnh lên tại đây"
               valuePropName="fileList"
               name="image[]"
-              //  getValueFromEvent={normFile}
             >
               <Upload
                 // action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
