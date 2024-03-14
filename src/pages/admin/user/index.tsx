@@ -26,9 +26,6 @@ const UserAdmin = () => {
     isFetching,
     refetch,
   } = useQuery(["userList"], () => getListUser());
-  console.log(Cookies.get("token"));
-
-  console.log("userList", userList);
 
   const columns: TableProps<DataType>["columns"] = [
     {

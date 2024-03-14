@@ -1,9 +1,21 @@
-import { Button, Input, PaginationProps, Space, Table, TableProps } from "antd";
+import {
+  Button,
+  Input,
+  PaginationProps,
+  Space,
+  Table,
+  TableColumnsType,
+  TableProps,
+} from "antd";
 import styles from "./styles.module.scss";
 import { SearchOutlined } from "@ant-design/icons";
 import type { SearchProps } from "antd/es/input/Search";
 import { useQuery } from "react-query";
-import { getListProduct } from "../../../api/admin";
+import {
+  getCategories,
+  getListProduct,
+  getListProductNoCate,
+} from "../../../api/admin";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
@@ -13,24 +25,34 @@ interface DataType {
   key: string;
   nameFolder: string;
   amount: number;
-  categories: string;
+  category: string;
   price: number;
-  state: string;
+  sell: string;
 }
 
 const HomeAdmin = () => {
   const navigate = useNavigate();
-  const {
-    data: product,
-    isLoading,
-    isFetching,
-    refetch,
-  } = useQuery(["product"], () => getListProduct(1));
-  const columns: TableProps<DataType>["columns"] = [
+  const [page, setPage] = useState("1");
+  const [categorySelected, setCategorySelect] = useState();
+  const { data: product, refetch } = useQuery(
+    ["product", categorySelected],
+    () => {
+      if (categorySelected == undefined) {
+        return getListProductNoCate(page);
+      } else return getListProduct(page, categorySelected);
+    }
+  );
+  const { data: categories } = useQuery("categories", () => getCategories());
+  const categoriesMap = categories?.data.map((item: any) => ({
+    value: item.id,
+    text: item.name,
+  }));
+  const columns: TableColumnsType<DataType> = [
     {
       title: "STT",
       dataIndex: "id",
       key: "id",
+      align: "center",
     },
     {
       title: "Tên folder",
@@ -41,6 +63,18 @@ const HomeAdmin = () => {
       title: "Chuyên mục",
       dataIndex: "category",
       key: "category",
+      filters: categoriesMap,
+      onFilter: (value: any, record) => {
+        // setCategorySelect(value);
+        // refetch();
+        return record.category.startsWith(value);
+      },
+      render: (text: any) => {
+        const foundCategory = categories?.data.find(
+          (item: any) => item.id === text
+        );
+        return <>{foundCategory ? foundCategory.name : text}</>;
+      },
     },
     {
       title: "Giá",
@@ -54,11 +88,11 @@ const HomeAdmin = () => {
     },
     {
       title: "Tình trạng",
-      dataIndex: "state",
-      key: "state",
+      dataIndex: "sell",
+      key: "sell",
       render: (text, record) => (
-        <span style={{ color: record.state === "Đã bán" ? "red" : "#1677ff" }}>
-          {text}
+        <span style={{ color: record.sell === "0" ? "#1677ff" : "red" }}>
+          {text === "0" ? <p>Chưa bán</p> : <p>Đã bán</p>}
         </span>
       ),
     },
@@ -69,10 +103,10 @@ const HomeAdmin = () => {
         <Space size="middle">
           <Button
             style={{
-              backgroundColor:
-                record.state === "Đã bán" ? "#C6C6C6" : "#1677FF",
+              backgroundColor: record.sell === "1" ? "#C6C6C6" : "#1677FF",
               color: "#FFFF",
             }}
+            disabled={record.sell === "1"}
           >
             Sửa
           </Button>
@@ -85,12 +119,13 @@ const HomeAdmin = () => {
   ];
   const onSearch: SearchProps["onSearch"] = (value, _e, info) =>
     console.log(info?.source, value);
-  const [current, setCurrent] = useState(3);
 
   const onChange: PaginationProps["onChange"] = (page: any) => {
-    console.log(page);
-    setCurrent(page);
+    // console.log(page);
+    setPage(page);
+    refetch();
   };
+
   return (
     <>
       <div className={styles.wrapSearch}>
@@ -110,15 +145,33 @@ const HomeAdmin = () => {
         </div>
         <div className={styles.table}>
           {" "}
-          <Table
-            columns={columns}
-            dataSource={product?.data}
-            style={{ overflowX: "auto" }}
-            pagination={{
-              defaultCurrent: 1,
-              onChange: onChange,
-            }}
-          />
+          {product?.status === "failed" ? (
+            <>
+              {" "}
+              <Table
+                columns={columns}
+                dataSource={[]}
+                style={{ overflowX: "auto" }}
+                pagination={{
+                  defaultCurrent: 1,
+                  onChange: onChange,
+                }}
+              />
+            </>
+          ) : (
+            <>
+              {" "}
+              <Table
+                columns={columns}
+                dataSource={product?.data}
+                style={{ overflowX: "auto" }}
+                pagination={{
+                  defaultCurrent: 1,
+                  onChange: onChange,
+                }}
+              />
+            </>
+          )}
         </div>
       </div>
     </>

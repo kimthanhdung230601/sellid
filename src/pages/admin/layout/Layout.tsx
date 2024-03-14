@@ -45,14 +45,14 @@ const Layout = () => {
         >
           <span className={styles.text}>Quản lý</span>
         </div>
-        <div
+        {/* <div
           onClick={() => handleItemClick("user")}
           className={`${styles.headerItem} ${
             window.location.pathname.includes("/admin/user") ? styles.selected : ""
           }`}
         >
           <span className={styles.text}>User</span>
-        </div>
+        </div> */}
         <div className={styles.icon}>
           <UserOutlined />
           <div className={`animate__zoomIn ${styles.userMenu}`}>

@@ -5,7 +5,8 @@ import styles from "./styles.module.scss";
 import type { GetProp, UploadFile, UploadProps } from "antd";
 import { useState } from "react";
 import { useQuery } from "react-query";
-import { getCategories } from "../../../api/admin";
+import { getCategories, postAddProduct } from "../../../api/admin";
+import TextArea from "antd/es/input/TextArea";
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
 interface ProductProps {}
@@ -20,13 +21,12 @@ const getBase64 = (file: FileType): Promise<string> =>
 const Product = () => {
   const { data: categories } = useQuery("categories", () => getCategories());
   const antdOptions = categories?.data.map((item: any) => ({
-    value: item.name,
+    value: item.id,
     label: item.name,
   }));
+
   const [form] = Form.useForm();
-  const onFinish = (value: any) => {
-    console.log("value: ", value);
-  };
+
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
@@ -48,8 +48,29 @@ const Product = () => {
 
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
     setFileList(newFileList);
-  // console.log("fileList", fileList);
+  // ------------------------onFinish------------------------------
+  const onFinish = async (value: any) => {
+    console.log("value", value);
 
+    try {
+      const formData = new FormData();
+      formData.append("namefolder", value.namefolder);
+      formData.append("category", value.category);
+      formData.append("price", value.price);
+      formData.append("description", value.description);
+
+      fileList.forEach((file, index) => {
+        formData.append(`images[${index}]`, file.originFileObj as File);
+      });
+
+      // console.log("formData", formData);
+      const res = await postAddProduct(formData);
+      alert("Tải folder lên thành công");
+      // console.log("res", res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const uploadButton = (
     <button style={{ border: 0, background: "none" }} type="button">
       <PlusOutlined />
@@ -65,7 +86,7 @@ const Product = () => {
             <Col xs={24} sm={12}>
               <Form.Item
                 label="Tên folder"
-                name="folderName"
+                name="namefolder"
                 rules={[
                   { required: true, message: "Vui lòng điền tên folder" },
                 ]}
@@ -76,7 +97,7 @@ const Product = () => {
             <Col xs={24} sm={12}>
               <Form.Item
                 label="Chuyên mục"
-                name="categories"
+                name="category"
                 rules={[
                   { required: true, message: "Vui lòng điền chuyên mục" },
                 ]}
@@ -84,16 +105,34 @@ const Product = () => {
                 <Select options={antdOptions} />
               </Form.Item>
             </Col>
+            <Col xs={24} sm={12}>
+              <Form.Item
+                label="Giá"
+                name="price"
+                rules={[{ required: true, message: "Vui lòng điền giá" }]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12}>
+              <Form.Item
+                label="Mô tả"
+                name="description"
+                rules={[{ required: true, message: "Vui lòng điền mô tả" }]}
+              >
+                <TextArea />
+              </Form.Item>
+            </Col>
           </Row>
           <Row>
             <Form.Item
               label="Tải ảnh lên tại đây"
               valuePropName="fileList"
-              name="image"
-              //   getValueFromEvent={normFile}
+              name="image[]"
+              //  getValueFromEvent={normFile}
             >
               <Upload
-                action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+                // action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
                 listType="picture-card"
                 fileList={fileList}
                 onPreview={handlePreview}

@@ -22,7 +22,6 @@ const LogInComponent = () => {
       if (res.status == "success") {
         if (res.isAdmin === "1") navigate("/admin");
         else navigate("/");
-
         Cookies.set("token", res.jwt);
         Cookies.set("username", res.username);
         Cookies.set("id", res.id);
@@ -31,6 +30,7 @@ const LogInComponent = () => {
         Cookies.set("phone", res.phone);
         Cookies.set("active", res.active);
         Cookies.set("total_money", res.total_money);
+        Cookies.set("money",res.money);
       } else alert(res.data);
     } catch (error: any) {
       alert("Đăng nhập thất bại");
