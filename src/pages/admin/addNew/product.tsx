@@ -1,9 +1,25 @@
-import { Button, Col, Form, Input, Row, Upload, Modal } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Row,
+  Upload,
+  Modal,
+  Select,
+  message,
+} from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 
 import styles from "./styles.module.scss";
 import type { GetProp, UploadFile, UploadProps } from "antd";
 import { useState } from "react";
+import { useQuery } from "react-query";
+import { getCategories, postAddProduct } from "../../../api/admin";
+import TextArea from "antd/es/input/TextArea";
+import CryptoJS from "crypto-js";
+import { MD5 } from "crypto-js";
+
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
 interface ProductProps {}
@@ -14,11 +30,16 @@ const getBase64 = (file: FileType): Promise<string> =>
     reader.onload = () => resolve(reader.result as string);
     reader.onerror = (error) => reject(error);
   });
+
 const Product = () => {
+  const { data: categories } = useQuery("categories", () => getCategories());
+  const antdOptions = categories?.data.map((item: any) => ({
+    value: item.id,
+    label: item.name,
+  }));
+
   const [form] = Form.useForm();
-  const onFinish = (value: any) => {
-    console.log("value: ", value);
-  };
+
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
@@ -40,7 +61,28 @@ const Product = () => {
 
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
     setFileList(newFileList);
-  console.log("fileList", fileList);
+
+  // ------------------------onFinish------------------------------
+  const onFinish = async (value: any) => {
+    try {
+      const formData = new FormData();
+      formData.append("namefolder", value.namefolder);
+      formData.append("category", value.category);
+      formData.append("price", value.price);
+      formData.append("description", value.description);
+
+      fileList.forEach((file, index) => {
+        const hashedFileName = CryptoJS.MD5(file.name).toString();
+        formData.append(
+          `images[${index}]`,
+          file.originFileObj as File,
+          hashedFileName
+        );
+      });
+      const res = await postAddProduct(formData);
+      message.success("Thêm thành công");
+    } catch (error) {}
+  };
 
   const uploadButton = (
     <button style={{ border: 0, background: "none" }} type="button">
@@ -48,6 +90,7 @@ const Product = () => {
       <div style={{ marginTop: 8 }}>Upload</div>
     </button>
   );
+
   return (
     <>
       <h1 className={styles.title}>THÊM FOLDER</h1>
@@ -57,7 +100,7 @@ const Product = () => {
             <Col xs={24} sm={12}>
               <Form.Item
                 label="Tên folder"
-                name="folderName"
+                name="namefolder"
                 rules={[
                   { required: true, message: "Vui lòng điền tên folder" },
                 ]}
@@ -68,12 +111,30 @@ const Product = () => {
             <Col xs={24} sm={12}>
               <Form.Item
                 label="Chuyên mục"
-                name="categories"
+                name="category"
                 rules={[
                   { required: true, message: "Vui lòng điền chuyên mục" },
                 ]}
               >
+                <Select options={antdOptions} />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12}>
+              <Form.Item
+                label="Giá"
+                name="price"
+                rules={[{ required: true, message: "Vui lòng điền giá" }]}
+              >
                 <Input />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12}>
+              <Form.Item
+                label="Mô tả"
+                name="description"
+                rules={[{ required: true, message: "Vui lòng điền mô tả" }]}
+              >
+                <TextArea />
               </Form.Item>
             </Col>
           </Row>
@@ -81,16 +142,16 @@ const Product = () => {
             <Form.Item
               label="Tải ảnh lên tại đây"
               valuePropName="fileList"
-              //   getValueFromEvent={normFile}
+              name="image[]"
             >
               <Upload
-                action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+                // action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
                 listType="picture-card"
                 fileList={fileList}
                 onPreview={handlePreview}
                 onChange={handleChange}
               >
-                {fileList.length >= 8 ? null : uploadButton}
+                {uploadButton}
               </Upload>
               <Modal
                 open={previewOpen}

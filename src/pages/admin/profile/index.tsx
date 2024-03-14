@@ -1,17 +1,14 @@
-import { Button, Col, Form, Input, Row } from "antd";
 import styles from "./styles.module.scss";
-import { useForm } from "antd/es/form/Form";
+import Bank from "./bank";
+import Transaction from "./transaction";
 interface ProfileProps {}
 
 const Profile = () => {
-  const onFinish = (value: any) => {
-    console.log(value);
-  };
-  const [form] = useForm();
   return (
     <>
       <h1 className={styles.title}>QUẢN LÝ</h1>
-      <div className={styles.profileWrap}>
+      {/* <h3 className={styles.title}>Tài khoản cá nhân</h3> */}
+      {/* <div className={styles.profileWrap}>
         <Form
           form={form}
           name="control-hooks"
@@ -70,6 +67,12 @@ const Profile = () => {
             </Button>
           </Form.Item>
         </Form>
+      </div> */}
+      <div className={styles.bankWrapper}>
+        <Bank />
+      </div>
+      <div className={styles.transactionWrapper}>
+        <Transaction />
       </div>
     </>
   );
