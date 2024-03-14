@@ -1,10 +1,40 @@
 import { CheckCircleOutlined } from "@ant-design/icons";
 import styles from "./Account.module.scss";
-import { Col, Image, Row, Table } from "antd";
+import { Col, Image, Modal, Row, Table } from "antd";
 import Header from "../../../components/user/Header";
 import { formatCurrency } from "../../../constant/currencyFormatter";
+import { useQuery } from "react-query";
+import { getUserInfo } from "../../../api/ApiUser";
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import CryptoJS from "crypto-js";
 
 function Account() {
+  document.title = "Tài khoản"
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [money, setMoney] = useState(0)
+  const {data: userInfor} = useQuery(["userInfo"], () => getUserInfo(),{
+    staleTime: 60000,
+    cacheTime: Infinity,
+    refetchInterval: 60000, 
+    onSettled: (fetchedData) => {
+      const money = Cookies.get("money")
+      if(money){
+        const result = parseInt(fetchedData?.data[0].money, 10) - parseInt(money, 10)
+        if(result > 0){
+          Cookies.set("money", fetchedData?.data[0].money)
+          setIsModalOpen(true)
+          setMoney(result)
+        }
+      } else{
+        Cookies.set("money", fetchedData?.data[0].money)
+      }
+    },
+  })
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className={styles.wrapper}>
         <Header />
@@ -24,25 +54,27 @@ function Account() {
                     </div>
                   </div>
 
-                  <div className={styles.aboutName}>username</div>
+                  <div className={styles.aboutName}>{userInfor?.data[0].username}</div>
                   <div className={styles.aboutEmail}>
-                    @nguyenquanghuy7765@gmail.com
+                  {userInfor?.data[0].email}
                   </div>
                   <div className={styles.aboutSpending}>
                     <div className={styles.spending}>
-                      <div className={styles.spendingNumber}>{formatCurrency(100000)} {" "} VNĐ</div>
+                      <span className={styles.spendingText}>Số dư: </span>
+                    <div className={styles.spendingNumber}>{formatCurrency(parseInt(userInfor?.data[0].money, 10))}{" "} VNĐ</div>
+                      
+                    </div>
+                    {/* <div className={styles.spendingItem}>
+                    <div className={styles.spendingNumber}>{formatCurrency(parseInt(userInfor?.data[0].total_money, 10))} {" "} VNĐ</div>
                       <div className={styles.spendingText}>Đã nạp</div>
-                    </div>
-                    <div className={styles.spendingItem}>
-                      <div className={styles.spendingNumber}>{formatCurrency(100000)}{" "} VNĐ</div>
-                      <div className={styles.spendingText}>Số dư</div>
-                    </div>
+                    </div> */}
                     
                   </div>
                 </div>
               </Col>
-              <Col span={14} xxl={14} lg={14} md={24} sm={24} xs={24} className={styles.inforWrap}>
-                    <div className={styles.title}>Nạp tiền</div>
+              <Col span={14} xxl={14} lg={14} md={24} sm={24} xs={24} >
+                <div className={styles.inforWrap}>
+                <div className={styles.title}>Nạp tiền</div>
                     <div className={styles.infor}>
                         <Image src={require("../../../assets/image/qr.jpg")} className={styles.inforImg} width={"30%"}/>
                         <div className={styles.inforBank}>
@@ -65,11 +97,14 @@ function Account() {
                 
                         </div>
                     </div>
-                    
+                </div>
               </Col>
             </Row>
         </div>
-            
+        <Modal className={styles.modal} open={isModalOpen} onOk={handleOk} cancelButtonProps={{ style: { display: 'none' } }} closeIcon={false} okText="Đóng">
+              <Image style={{ marginTop: "30px"}} src={require("../../../assets/image/check.png")} preview={false} width={"20%"} />
+              <div style={{fontSize: "16px", marginTop: "20px"}}>Chúc mừng bạn đã nạp thành công số tiền <span style={{color: "#69AD3A", fontWeight: "600"}}> {formatCurrency(money)} {" "} VNĐ</span></div>
+      </Modal>
     </div>
   );
 }

@@ -17,6 +17,7 @@ const Wrapper = () => {
           <Route path="/admin/profile" element={<Profile />} />
         </Route>
         <Route path="/" element={<Home />} />
+        <Route path="/:category" element={<Home />} />
         <Route path="/dang-nhap" element={<LogIn />} />
         <Route path="/tai-khoan" element={<Account />} />
       </Routes>
