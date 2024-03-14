@@ -10,10 +10,11 @@ import UserAdmin from "../pages/admin/user";
 import { useEffect } from "react";
 import Cookies from "js-cookie";
 import { logout } from "../api/api";
-
+import CryptoJS from "crypto-js";
 const Wrapper = () => {
   const isAuthenticated = Cookies.get("admin");
   const navigate = useNavigate();
+
   useEffect(() => {
     if (isAuthenticated === "0" || !isAuthenticated) {
       if (window.location.pathname.includes(`/admin`)) {
