@@ -72,7 +72,7 @@ const Product = () => {
       formData.append("description", value.description);
 
       fileList.forEach((file, index) => {
-        const hashedFileName = CryptoJS.MD5(value).toString();
+        const hashedFileName = CryptoJS.MD5(file.name).toString();
         formData.append(
           `images[${index}]`,
           file.originFileObj as File,
