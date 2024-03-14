@@ -6,7 +6,8 @@
     padding: 140px 10.72% 71px 10.72%;
 }
 .accountAbout{
-    margin-bottom: 30px;
+    // margin-bottom: 30px;
+    height: 100%;
     background-image: url("../../../assets/image/account-bg.png");
     text-align: center;
     padding: 48px 0;
@@ -76,27 +77,31 @@
 
 .spendingNumber{
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 600;
+    margin-left: 10px;
+    color: #167fff;
 }
 
 .spendingText{
-    font-size: 14px;
-    font-weight: 400;
+    font-size: 18px;
+    font-weight: 600;
+    
 }
 
 .spending{
-    padding-right: 10px;
-    border-width: 0 2px 0 0;
-    border-style: solid;
-    border-color: rgba(82, 82, 108, 0.4);
+    display: flex;
+    align-items: center;
+    padding-right: 20px;
+    padding-left: 20px;
 }
 
 .spendingItem{
-    padding-left: 10px;
+    padding-left: 20px;
 }
 
 .inforWrap{
-    margin-bottom: 30px;
+    // margin-bottom: 30px;
+    height: 100%;
     padding: 30px;
     background-color: #fff;
     border-radius: 10px;
@@ -142,6 +147,22 @@
     width: 220px;
 }
 
+.modal{
+    text-align: center;
+}
+
+@media only screen and (max-width: 1660px) {
+    .infor > div:first-child {
+        margin: 0 auto;
+    }
+
+    .title{
+        text-align: center;
+        margin-left: 0;
+    }
+
+}
+
 
 @media only screen and (max-width: 1200px) {
     .inforBank{
@@ -165,6 +186,12 @@
 
     .inforBank{
         width: 100%;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .inforWrap{
+        margin-top: 30px;
     }
 }
 

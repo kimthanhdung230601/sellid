@@ -1,7 +1,7 @@
 
 .wrap{
-    margin-top: 30px;
-    margin-bottom: 30px;
+    padding-top: 12px;
+    margin-bottom: 50px;
     max-width: 250px;
 
 }
@@ -22,6 +22,15 @@
     width: auto ;
     height: 100% !important;
     object-fit: cover;
+    cursor: pointer;
+    &:hover{
+        scale: 110%;
+        transition: ease 0.4s;
+    }
+    &:not(hover){
+        scale: 100%;
+        transition: ease 0.4s;
+    }
 }
 
 .item{
@@ -68,11 +77,11 @@
 }
 
 .modalFolder > div:nth-child(2) > div:nth-child(3) > div {
-    margin: 20px 12px;
+    margin: 10px 12px 20px 12px;
 }
 
 .confirm{
-    padding: 20px 30px;
+    padding: 10px 30px;
 }
 
 .confirmItem{
@@ -90,4 +99,3 @@
 .confirmValue{
     font-size: 16px;
 }
-
