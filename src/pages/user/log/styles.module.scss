@@ -1,18 +1,21 @@
 .wrap {
-  padding:10vh 476px ;
+  padding:10vh 20% ;
   height: auto;
   background-color: #cfecf5;
   .logWrap {
     background-color: #ffff;
     height: 676px;
     border-radius: 20px;
-    padding: 0 268px 0 268px;
+    padding: 0 20vh 0 20vh;
     margin-bottom: 12%;
   }
   .titleGroup {
     display: flex;
     justify-content: center;
     align-items: center;
+    h3{
+      // width: 150%;
+    }
     .title {
       cursor: pointer;
       margin: 40px 30px 68px 30px;
