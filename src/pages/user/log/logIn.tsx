@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 import { useNavigate } from "react-router";
 import { logIn } from "../../../api/admin";
 import Cookies from "js-cookie";
-import CryptoJS from "crypto-js";
+import CryptoJS from "crypto-js"
 const secretKey = process.env.REACT_APP_SECRET_KEY as string;
 
 interface LogInComponentProps {}
@@ -20,22 +20,17 @@ const LogInComponent = () => {
         password: value.password,
       };
       const res = await logIn(payload);
+      console.log(res)
+      //  const token = CryptoJS.AES.encrypt(res.jwt, secretKey).toString();
+      const username = CryptoJS.AES.encrypt(res.username, secretKey).toString();
+      const isAdmin = CryptoJS.AES.encrypt(res.isAdmin, secretKey).toString();
+      const fullname = CryptoJS.AES.encrypt(res.fullname, secretKey).toString();
+      const phone = CryptoJS.AES.encrypt(res.phone, secretKey).toString();
+      const money = CryptoJS.AES.encrypt(res.money, secretKey).toString();
 
       if (res.status == "success") {
         if (res.isAdmin === "1") navigate("/admin");
         else navigate("/");
-        
-        const username = CryptoJS.AES.encrypt(
-          res.username,
-          secretKey
-        ).toString();
-        const isAdmin = CryptoJS.AES.encrypt(res.isAdmin, secretKey).toString();
-        const fullname = CryptoJS.AES.encrypt(
-          res.fullname,
-          secretKey
-        ).toString();
-        const phone = CryptoJS.AES.encrypt(res.phone, secretKey).toString();
-        const money = CryptoJS.AES.encrypt(res.money, secretKey).toString();
         Cookies.set("token", res.jwt);
         Cookies.set("username", username);
         Cookies.set("admin", isAdmin);
