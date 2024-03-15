@@ -12,8 +12,10 @@ const Register = () => {
     try {
       const payload = value;
       const res = await signUp(payload);
-      if(res.status == "success") navigate("/");
-      message.success(res.data);
+      if (res.status == "success") {
+        navigate("/");
+        message.success(res.data);
+      } else message.error(res.data);
     } catch (error) {}
 
     // if (res.status === "success") navigate("/dang-nhap");

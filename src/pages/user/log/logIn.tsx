@@ -1,4 +1,4 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message } from "antd";
 import { useForm } from "antd/es/form/Form";
 import styles from "./styles.module.scss";
 import { useNavigate } from "react-router";
@@ -47,10 +47,13 @@ const LogInComponent = () => {
         Cookies.set("phone", phone);
         Cookies.set("money", money);
         Cookies.set("isAdmin", res.isAdmin);
-      } else alert(res.data);
+      } else message.error(res.data);
     } catch (error: any) {
-      alert("Đăng nhập thất bại");
-      console.log("error", error);
+      message.error(
+        "Đăng nhập thất bại, vui lòng kiểm tra lại tài khoản hoặc mật khẩu"
+      );
+      // alert("Đăng nhập thất bại");
+      // console.log("error", error);
     }
   };
   return (
