@@ -31,7 +31,7 @@ const ModalDetailProducts = ({
                   key={index}
                   src={"https://taphoahinh.com/PHP_IMG/" + imageUrl.trim()}
                   alt={`Image`}
-                  style={{ width: 120 }}
+                  style={{ height: 120, width: 200,margin:"0 10px 10px 0px", objectFit: "cover" }}
                 />
               ))}
           </Image.PreviewGroup>

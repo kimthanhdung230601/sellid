@@ -16,7 +16,7 @@ const Account = lazy(() => import("../pages/user/Account"));
 const Home = lazy(() => import("../pages/user/Home"));
 
 const Wrapper = () => {
-  const isAuthenticated = Cookies.get("admin");
+  const isAuthenticated = Cookies.get("isAdmin");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -27,7 +27,7 @@ const Wrapper = () => {
     return () => clearTimeout(timer);
   }, []);
   useEffect(() => {
-    if (isAuthenticated !== "0" || !isAuthenticated) {
+    if (isAuthenticated === "0" || !isAuthenticated) {
       if (window.location.pathname === "/admin") {
         logout();
         navigate("/dang-nhap");

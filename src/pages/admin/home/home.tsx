@@ -51,12 +51,14 @@ const HomeAdmin = () => {
     value: item.id,
     text: item.name,
   }));
-  const confirm = (idProduct: any) => {
+  const confirm = async (idProduct: any) => {
     const payload = {
       idproduct: idProduct,
     };
-    const res = deleteProduct(payload);
-    message.success("Xóa thành công");
+    const res = await deleteProduct(payload);
+    console.log("res", res);
+
+    // message.success("Xóa thành công");
     refetch();
   };
 
@@ -78,9 +80,10 @@ const HomeAdmin = () => {
   const columns: TableColumnsType<DataType> = [
     {
       title: "STT",
-      dataIndex: "id",
-      key: "id",
+      dataIndex: "key",
+      key: "key",
       align: "center",
+      render: (text, record, index) => index + 1,
     },
     {
       title: "Tên folder",
@@ -106,6 +109,7 @@ const HomeAdmin = () => {
       title: "Giá",
       dataIndex: "price",
       key: "price",
+      width: 120,
     },
     {
       title: "Mô tả",
@@ -155,22 +159,24 @@ const HomeAdmin = () => {
   ];
   useEffect(() => {
     refetch();
-  }, [page]);
+  }, [page,product?.total_products]);
   const onChange = (value: any) => {
     setPage(value);
+    // refetch();
   };
+  const totalPages = parseInt(product?.total_pages);
 
   return (
     <>
-      <div className={styles.wrapSearch}>
-      </div>
+      {/* <div className={styles.wrapSearch}></div> */}
       <div className={styles.tablWrap}>
-        <div className={styles.btn}>
-          <Button type="primary" onClick={() => navigate("./product")}>
-            Thêm mới
-          </Button>
-        </div>
         <Spin spinning={isFetching}>
+          {" "}
+          <div className={styles.btn}>
+            <Button type="primary" onClick={() => navigate("./product")}>
+              Thêm mới
+            </Button>
+          </div>
           <div className={styles.table}>
             {" "}
             <>
@@ -182,9 +188,8 @@ const HomeAdmin = () => {
                 pagination={{
                   defaultCurrent: 1,
                   onChange: onChange,
-                  total: product?.total_pages + 10,
+                  total: product?.total_products,
                 }}
-                // <Pagination/>
               />
             </>
           </div>

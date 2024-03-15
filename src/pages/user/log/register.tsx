@@ -1,4 +1,4 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message } from "antd";
 import { useForm } from "antd/es/form/Form";
 import styles from "./styles.module.scss";
 import { signUp } from "../../../api/admin";
@@ -9,12 +9,17 @@ const Register = () => {
   const navigate = useNavigate();
   const [form] = useForm();
   const onFinish = async (value: any) => {
-    const payload = value;
-    const res = await signUp(payload);
-    if(res.data.status === "success") navigate("/dang-nhap");
+    try {
+      const payload = value;
+      const res = await signUp(payload);
+      if(res.status == "success") navigate("/");
+      message.success(res.data);
+    } catch (error) {}
+
+    // if (res.status === "success") navigate("/dang-nhap");
   };
   const validatePassword = ({ getFieldValue }: any) => ({
-    validator(_:any, value:any) {
+    validator(_: any, value: any) {
       if (!value || getFieldValue("password") === value) {
         return Promise.resolve();
       }
