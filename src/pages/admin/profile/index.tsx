@@ -4,6 +4,7 @@ import Transaction from "./transaction";
 interface ProfileProps {}
 
 const Profile = () => {
+  document.title = "Quản lý"
   return (
     <>
       <h1 className={styles.title}>QUẢN LÝ</h1>

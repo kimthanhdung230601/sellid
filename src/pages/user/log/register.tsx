@@ -73,7 +73,17 @@ const Register = () => {
           <Form.Item
             label="Mật khẩu"
             name="password"
-            rules={[{ required: true, message: "Vui lòng nhập mật khẩu!" }]}
+            rules={
+              [
+              {
+                pattern: /^.{8,}$/,
+                message: 'Ít nhất 8 ký tự',
+              },
+              {
+                required: true,
+                message: 'Hãy nhập mật khẩu',
+              }
+            ]}
           >
             <Input.Password />
           </Form.Item>

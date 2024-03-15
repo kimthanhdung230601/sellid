@@ -37,6 +37,7 @@ interface DataType {
 }
 
 const HomeAdmin = () => {
+  document.title = "Admin"
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   // const [categorySelected, setCategorySelect] = useState();

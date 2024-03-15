@@ -8,9 +8,11 @@ import { getUserInfo } from "../../../api/ApiUser";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import CryptoJS from "crypto-js";
+import { useLocation } from "react-router";
 
 function Account() {
   document.title = "Tài khoản"
+  const location = useLocation()
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [money, setMoney] = useState(0)
   const {data: userInfor} = useQuery(["userInfo"], () => getUserInfo(),{
@@ -19,27 +21,39 @@ function Account() {
     refetchInterval: 60000, 
     onSettled: (fetchedData) => {
       const money = Cookies.get("money")
+      const secretKey = process.env.REACT_APP_SECRET_KEY as string
       if(money){
-        const result = parseInt(fetchedData?.data[0].money, 10) - parseInt(money, 10)
+        const bytes = CryptoJS.AES.decrypt(money, secretKey);
+        const decryptedMoney= bytes.toString(CryptoJS.enc.Utf8);
+        const result = parseInt(fetchedData?.data[0].money, 10) - parseInt(decryptedMoney, 10)
+        console.log(decryptedMoney)
         if(result > 0){
-          Cookies.set("money", fetchedData?.data[0].money)
+          const saveMoney = CryptoJS.AES.encrypt(
+            fetchedData?.data[0].money,
+            secretKey
+          ).toString();
+          Cookies.set("money", saveMoney)
           setIsModalOpen(true)
           setMoney(result)
         }
       } else{
-        Cookies.set("money", fetchedData?.data[0].money)
+        const saveMoney = CryptoJS.AES.encrypt(
+          fetchedData?.data[0].money,
+          secretKey
+        ).toString();
+        Cookies.set("money", saveMoney)
       }
     },
   })
   const handleOk = () => {
     setIsModalOpen(false);
   };
-
+  console.log(location.pathname)
   return (
     <div className={styles.wrapper}>
         <Header />
         <div className={styles.container}>
-            <Row gutter={40}>
+            <Row gutter={40} className={styles.row}>
               <Col span={10} xxl={10} lg={10} md={24} sm={24} xs={24}>
                 <div className={styles.accountAbout}>
                   <div className={styles.userInfor}>
@@ -76,7 +90,7 @@ function Account() {
                 <div className={styles.inforWrap}>
                 <div className={styles.title}>Nạp tiền</div>
                     <div className={styles.infor}>
-                        <Image src={require("../../../assets/image/qr.jpg")} className={styles.inforImg} width={"30%"}/>
+                        <Image src={`https://api.vietqr.io/Mbbank/107069099999/0/naptien%20${userInfor?.data[0].username}/vietqr_net_2.jpg?accountName=LE%20THI%20THU%20HA&fbclid=IwAR32mVZcLPmA_8TLyVwonR7-ZgX5mXD2MooKJoNCrQNhiUd5kSBZwoyATak`} className={styles.inforImg} width={"30%"}/>
                         <div className={styles.inforBank}>
                             <div className={styles.inforItem}>
                                 <div className={styles.name}>Ngân hàng</div>
@@ -84,19 +98,24 @@ function Account() {
                             </div>
                             <div className={styles.inforItem}>
                                 <div className={styles.name}>Chủ tài khoản</div>
-                                <div className={styles.value}>Trần Văn anh</div>
+                                <div className={styles.value}>LE THI THU HA</div>
                             </div>
                             <div className={styles.inforItem}>
                                 <div className={styles.name}>Số tài khoản</div>
-                                <div className={styles.value}>0948484737373838</div>
+                                <div className={styles.value}>107069099999</div>
                             </div>
                             <div className={styles.inforItem}>
                                 <div className={styles.name}>Nội dung chuyển khoản</div>
-                                <div className={styles.value}>NHHHDJDE</div>
+                                <div className={styles.value}>naptien username</div>
                             </div>
-                
                         </div>
+                        
                     </div>
+                    <div className={styles.notiWrap}>
+                    <li className={styles.noti}>Quý khách vui lòng nhập đúng nội dung chuyển khoản để nạp tiền, nội dung chuyển khoản có cú pháp <b style={{color: "#c4212a"}}>{"[naptien <tên username>]"} ví dụ "naptien maianh"</b> . Nếu nhập sai nội dung chuyển khoản, tài khoản sẽ <b style={{color: "#c4212a"}}>KHÔNG</b> nạp được tiền.</li>
+                    <li className={styles.noti}>Quý khách cũng có thể quét mã QR để chuyển khoản với nội dung đã được nhập sẵn.</li>
+                    </div>
+                    
                 </div>
               </Col>
             </Row>

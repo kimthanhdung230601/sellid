@@ -1,44 +1,65 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import React from 'react'
+import { logout } from '../api/api';
+import {message} from "antd"
+import { useLocation, useNavigate } from 'react-router';
+import { useRoutes } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import Component from './routes';
+import CryptoJS from 'crypto-js';
 import Layout from "../pages/admin/layout/Layout";
 import HomeAdmin from "../pages/admin/home/home";
-import Product from "../pages/admin/addNew/product";
 import Profile from "../pages/admin/profile";
-import LogIn from "../pages/user/log";
-import Account from "../pages/user/Account";
-import Home from "../pages/user/Home";
 import UserAdmin from "../pages/admin/user";
-import { useEffect } from "react";
-import Cookies from "js-cookie";
-import { logout } from "../api/api";
-import CryptoJS from "crypto-js";
-const Wrapper = () => {
-  const isAuthenticated = Cookies.get("admin");
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isAuthenticated === "0" || !isAuthenticated) {
-      if (window.location.pathname.includes(`/admin`)) {
-        logout();
-        navigate("/dang-nhap");
-      }
+import Home from "../pages/user/Home";
+import Account from "../pages/user/Account";
+import Product from "../pages/admin/addNew/product";
+import LogIn from "../pages/user/log";
+import NotFoundPage from "../pages/404";
+const secretKey = process.env.REACT_APP_SECRET_KEY as string
+export default function Wrapper() {
+  const navigate = useNavigate()
+  const location = useLocation()
+  const routeElement = useRoutes([
+    {path: "/admin", element: <HomeAdmin />},
+    {path: "/admin/them-moi", element: <Product />},
+    {path: "/admin/quan-ly-chung", element: <Profile />},
+    {path: "/", element: <Home />},
+    {path: "/category/:id/:category", element: <Home />},
+    {path: "/dang-nhap", element: <LogIn />},
+    {path: "/tai-khoan", element: <Account />},
+  ]);
+  const goToLogin = (text: string): null => {
+    if (typeof window !== "undefined") {
+      logout()
+      message.warning( `Bạn cần đăng nhập ${text} để truy cập trang này!`, 5);
+      setTimeout(()=>{
+          navigate('/dang-nhap')
+      }, 5000)
     }
-  }, [isAuthenticated, window.location.pathname]);
-  return (
-    <>
-      <Routes>
-        <Route path="/admin" element={<Layout />}>
-          <Route index path="/admin" element={<HomeAdmin />} />
-          <Route path="/admin/product" element={<Product />} />
-          <Route path="/admin/profile" element={<Profile />} />
-          <Route path="/admin/user" element={<UserAdmin />} />
-        </Route>
-        <Route path="/" element={<Home />} />
-        <Route path="/:category" element={<Home />} />
-        <Route path="/dang-nhap" element={<LogIn />} />
-        <Route path="/tai-khoan" element={<Account />} />
-      </Routes>
-    </>
-  );
-};
+    
+    return null;
+  };
 
-export default Wrapper;
+  if(!routeElement) return <NotFoundPage />
+  if (location.pathname === "/" || location.pathname === "/dang-nhap") {
+    return (
+      <Component />
+  );
+  } else {
+    if (Cookies.get('token')) {
+     if(location.pathname.includes('admin')){
+      const isAuthenticated = Cookies.get("isAdmin") as string;
+      let decryptedAuth: string;
+      const bytes = CryptoJS.AES.decrypt(isAuthenticated, secretKey);
+      decryptedAuth = bytes.toString(CryptoJS.enc.Utf8);
+      if(decryptedAuth === "1") return <Component />
+      else return goToLogin("quyền admin")
+    } else {
+          return (
+            <Component />
+          ); 
+      }
+    }  
+    return goToLogin("");
+  }
+}

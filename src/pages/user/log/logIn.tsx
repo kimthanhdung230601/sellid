@@ -1,9 +1,10 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message } from "antd";
 import { useForm } from "antd/es/form/Form";
 import styles from "./styles.module.scss";
 import { useNavigate } from "react-router";
 import { logIn } from "../../../api/admin";
 import Cookies from "js-cookie";
+import CryptoJS from "crypto-js";
 const secretKey = process.env.REACT_APP_SECRET_KEY as string;
 
 interface LogInComponentProps {}
@@ -19,26 +20,27 @@ const LogInComponent = () => {
         password: value.password,
       };
       const res = await logIn(payload);
-      //  const token = CryptoJS.AES.encrypt(res.jwt, secretKey).toString();
-      const username = CryptoJS.AES.encrypt(res.username, secretKey).toString();
-      const isAdmin = CryptoJS.AES.encrypt(res.isAdmin, secretKey).toString();
-      const fullname = CryptoJS.AES.encrypt(res.fullname, secretKey).toString();
-      const phone = CryptoJS.AES.encrypt(res.phone, secretKey).toString();
-      const money = CryptoJS.AES.encrypt(res.money, secretKey).toString();
+      const money = CryptoJS.AES.encrypt(
+        res.info_user[0].money,
+        secretKey
+      ).toString();
 
       if (res.status == "success") {
         if (res.isAdmin === "1") navigate("/admin");
         else navigate("/");
         Cookies.set("token", res.jwt);
-        Cookies.set("username", username);
-        Cookies.set("admin", isAdmin);
-        Cookies.set("fullname", fullname);
-        Cookies.set("phone", phone);
         Cookies.set("money", money);
-      } else alert(res.data);
+        const isAdmin = CryptoJS.AES.encrypt(
+          res?.isAdmin,
+          secretKey
+        ).toString();
+
+        Cookies.set("isAdmin", isAdmin);
+      } else message.error(res.data);
     } catch (error: any) {
-      alert("Đăng nhập thất bại");
-      console.log("error", error);
+      message.error(
+        "Đăng nhập thất bại, vui lòng kiểm tra lại tài khoản hoặc mật khẩu"
+      );
     }
   };
   return (

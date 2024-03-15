@@ -5,6 +5,7 @@ import LogInComponent from "./logIn";
 interface LogInProps {}
 
 const LogIn = () => {
+    document.title = "Đăng nhập - Đăng ký"
     const [selected,setSelected] = useState("login");
     const handleClickSelect = (value:any)=>{
         setSelected(value);
