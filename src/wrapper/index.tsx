@@ -4,6 +4,8 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { logout } from "../api/api";
 import { Spin } from "antd";
+import CryptoJS from "crypto-js";
+const secretKey = process.env.REACT_APP_SECRET_KEY as string;
 
 // Sử dụng lazy loading cho các trang admin
 const HomeAdmin = lazy(() => import("../pages/admin/home/home"));
@@ -17,6 +19,13 @@ const Home = lazy(() => import("../pages/user/Home"));
 
 const Wrapper = () => {
   const isAuthenticated = Cookies.get("isAdmin");
+  let decryptedAuth: any;
+
+  if (isAuthenticated) {
+    const bytes = CryptoJS.AES.decrypt(isAuthenticated, secretKey);
+    decryptedAuth = bytes.toString(CryptoJS.enc.Utf8);
+  }
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -27,7 +36,7 @@ const Wrapper = () => {
     return () => clearTimeout(timer);
   }, []);
   useEffect(() => {
-    if (isAuthenticated === "0" || !isAuthenticated) {
+    if (decryptedAuth === "0" || !decryptedAuth) {
       if (window.location.pathname === "/admin") {
         logout();
         navigate("/dang-nhap");

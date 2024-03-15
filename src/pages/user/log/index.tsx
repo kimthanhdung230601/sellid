@@ -31,7 +31,7 @@ const LogIn = () => {
           </h3>
         </div>
         <div className={styles.formGroup}>
-          {selected === "login" ? <LogInComponent /> : <Register />}
+          {selected === "login" ? <LogInComponent /> : <Register setSelected={setSelected} />}
         </div>
       </div>
     </div>

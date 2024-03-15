@@ -24,7 +24,6 @@ const LogInComponent = () => {
         res?.info_user[0].username,
         secretKey
       ).toString();
-
       const fullname = CryptoJS.AES.encrypt(
         res.info_user[0].fullname,
         secretKey
@@ -46,7 +45,12 @@ const LogInComponent = () => {
         Cookies.set("fullname", fullname);
         Cookies.set("phone", phone);
         Cookies.set("money", money);
-        Cookies.set("isAdmin", res.isAdmin);
+        const isAdmin = CryptoJS.AES.encrypt(
+          res?.isAdmin,
+          secretKey
+        ).toString();
+
+        Cookies.set("isAdmin", isAdmin);
       } else message.error(res.data);
     } catch (error: any) {
       message.error(

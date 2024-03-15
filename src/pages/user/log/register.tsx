@@ -3,9 +3,11 @@ import { useForm } from "antd/es/form/Form";
 import styles from "./styles.module.scss";
 import { signUp } from "../../../api/admin";
 import { useNavigate } from "react-router";
-interface RegisterProps {}
+interface RegisterProps {
+  setSelected:(value:string)=> void;
+}
 
-const Register = () => {
+const Register = ({setSelected}:RegisterProps) => {
   const navigate = useNavigate();
   const [form] = useForm();
   const onFinish = async (value: any) => {
@@ -13,7 +15,8 @@ const Register = () => {
       const payload = value;
       const res = await signUp(payload);
       if (res.status == "success") {
-        navigate("/");
+        // navigate("/");
+        setSelected("login");
         message.success(res.data);
       } else message.error(res.data);
     } catch (error) {}
