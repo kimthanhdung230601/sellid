@@ -27,7 +27,7 @@ const Wrapper = () => {
     return () => clearTimeout(timer);
   }, []);
   useEffect(() => {
-    if (isAuthenticated === "0" || !isAuthenticated) {
+    if (isAuthenticated !== "0" || !isAuthenticated) {
       if (window.location.pathname === "/admin") {
         logout();
         navigate("/dang-nhap");
