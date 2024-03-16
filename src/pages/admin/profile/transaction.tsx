@@ -10,35 +10,34 @@ interface TransactionProps {
   time: Date;
   price: 0;
 }
-const columns: TableColumnsType<TransactionProps> = [
-  {
-    title: "ID",
-    dataIndex: "key",
-    key: "key",
-    render: (text, record, index) => index + 1,
 
-  },
-  {
-    title: "Họ tên",
-    dataIndex: "username",
-    key: "username",
-  },
-  { title: "Số tiền", dataIndex: "price", key: "price", width: 100 },
-  {
-    title: "Folder",
-    dataIndex: "nameproduct",
-    key: "nameproduct",
-  },
-  {
-    title: "Thời gian",
-    dataIndex: "time",
-    key: "time",
-    width: 170,
-  },
-];
 const Transaction = () => {
-  const [pagination, setPagination] = useState("1");
-
+  const [pagination, setPagination] = useState(1);
+  const columns: TableColumnsType<TransactionProps> = [
+    {
+      title: "ID",
+      dataIndex: "key",
+      key: "key",
+      render: (text, record, index) => (pagination - 1) * 10 + index + 1,
+    },
+    {
+      title: "Họ tên",
+      dataIndex: "username",
+      key: "username",
+    },
+    { title: "Số tiền", dataIndex: "price", key: "price", width: 100 },
+    {
+      title: "Folder",
+      dataIndex: "nameproduct",
+      key: "nameproduct",
+    },
+    {
+      title: "Thời gian",
+      dataIndex: "time",
+      key: "time",
+      width: 170,
+    },
+  ];
   const { data: transaction, refetch } = useQuery(["Transaction"], () =>
     getTransaction(pagination)
   );
@@ -47,7 +46,7 @@ const Transaction = () => {
   };
   useEffect(() => {
     refetch();
-  }, [pagination,transaction?.total_products]);
+  }, [pagination, transaction?.total_products]);
   return (
     <>
       {" "}
