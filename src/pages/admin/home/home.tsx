@@ -169,12 +169,11 @@ const HomeAdmin = () => {
 
   return (
     <>
-      {/* <div className={styles.wrapSearch}></div> */}
       <div className={styles.tablWrap}>
         <Spin spinning={isFetching}>
           {" "}
           <div className={styles.btn}>
-            <Button type="primary" onClick={() => navigate("./product")}>
+            <Button type="primary" onClick={() => navigate("./them-moi")}>
               Thêm mới
             </Button>
           </div>

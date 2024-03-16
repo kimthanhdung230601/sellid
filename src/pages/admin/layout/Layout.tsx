@@ -30,7 +30,7 @@ const Layout = () => {
           <span className={styles.text}>Trang chủ </span>
         </div>
         <div
-          onClick={() => handleItemClick("product")}
+          onClick={() => handleItemClick("them-moi")}
           className={`${styles.headerItem} ${
             window.location.pathname.includes("/admin/them-moi") ? styles.selected : ""
           }`}
@@ -38,7 +38,7 @@ const Layout = () => {
           <span className={styles.text}>Thêm Folder</span>
         </div>
         <div
-          onClick={() => handleItemClick("profile")}
+          onClick={() => handleItemClick("quan-ly-chung")}
           className={`${styles.headerItem} ${
             window.location.pathname.includes("/admin/quan-ly-chung") ? styles.selected : ""
           }`}

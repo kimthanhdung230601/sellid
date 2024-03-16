@@ -14,7 +14,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import styles from "./styles.module.scss";
 import type { GetProp, UploadFile, UploadProps } from "antd";
 import { useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { getCategories, postAddProduct } from "../../../api/admin";
 import TextArea from "antd/es/input/TextArea";
 import CryptoJS from "crypto-js";
@@ -32,7 +32,7 @@ const getBase64 = (file: FileType): Promise<string> =>
   });
 
 const Product = () => {
-  document.title = "Thêm mới"
+  document.title = "Thêm mới";
   const { data: categories } = useQuery("categories", () => getCategories());
   const antdOptions = categories?.data.map((item: any) => ({
     value: item.id,
@@ -72,43 +72,47 @@ const Product = () => {
 
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
     setFileList(newFileList);
+  const [loading, setLoading] = useState(false);
+  const mutation = useMutation(postAddProduct, {
+    onSuccess: () => {
+      message.success("Thêm thành công");
+      setLoading(false);
+    },
+    onError: () => {
+      setLoading(false);
+      // Xử lý lỗi nếu cần
+    },
+  });
 
   // ------------------------onFinish------------------------------
   const onFinish = async (value: any) => {
-    try {
-      const formData = new FormData();
-      formData.append("namefolder", value.namefolder);
-      formData.append("category", value.category);
-      formData.append("price", value.price);
-      formData.append("description", value.description);
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("namefolder", value.namefolder);
+    formData.append("category", value.category);
+    formData.append("price", value.price);
+    formData.append("description", value.description);
 
-      fileList.forEach((file, index) => {
-        // Tách phần tên và phần đuôi của tệp
-        const fileName = file.name;
-        const fileExtension = fileName.split(".").pop(); // Lấy phần đuôi của tệp
-        const fileNameWithoutExtension = fileName
-          .split(".")
-          .slice(0, -1)
-          .join("."); // Lấy phần tên của tệp
+    fileList.forEach((file, index) => {
+      const fileName = file.name;
+      const fileExtension = fileName.split(".").pop();
+      const fileNameWithoutExtension = fileName
+        .split(".")
+        .slice(0, -1)
+        .join(".");
+      const hashedFileName = CryptoJS.MD5(fileNameWithoutExtension).toString();
+      const newFileName = `${hashedFileName}.${fileExtension}`;
 
-        // Mã hóa phần tên của tệp bằng MD5
-        const hashedFileName = CryptoJS.MD5(
-          fileNameWithoutExtension
-        ).toString();
-
-        // Tạo tên mới bằng cách ghép phần tên đã mã hóa và phần đuôi
-        const newFileName = `${hashedFileName}.${fileExtension}`;
-
-        // Thêm tệp vào FormData với tên mới
-        formData.append(
-          `images[${index}]`,
-          file.originFileObj as File,
-          newFileName
-        );
+      // Tạo một đối tượng File mới với tên tệp đã thay đổi
+      const newFile = new File([file.originFileObj as Blob], newFileName, {
+        type: file.type,
       });
-      const res = await postAddProduct(formData);
-      message.success("Thêm thành công");
-    } catch (error) {}
+      console.log("n", newFile);
+
+      formData.append(`images[${index}]`, newFile, newFileName);
+    });
+
+    mutation.mutate(formData);
   };
 
   const uploadButton = (
@@ -195,7 +199,12 @@ const Product = () => {
             </Form.Item>
           </Row>{" "}
           <Form.Item>
-            <Button type="primary" htmlType="submit" className={styles.btn}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className={styles.btn}
+              loading={loading}
+            >
               Đăng tin
             </Button>
           </Form.Item>

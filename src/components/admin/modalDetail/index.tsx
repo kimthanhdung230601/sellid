@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Image, Modal } from "antd";
+import { Button, Image, Modal,Spin } from "antd";
 interface modalProp {
   isModalOpen: any;
   handleOk: () => void;
