@@ -30,26 +30,27 @@ export default function Product(
             } else {
               queryClient.invalidateQueries('product')
               queryClient.invalidateQueries('userInfo')
+              localStorage.setItem("reload", "true")
             } 
-          }, 2000)
+          }, 1000)
           
           
         } else if(data.status === "failed") {
-
           message.error("Có lỗi xảy ra, vui lòng thử lại sau")
+          window.location.reload()
         }
       }
     }
   )
   const handleDownload = async (imageUrls: string) => {
     if (!imageUrls) {
-      message.error("Có lỗi xảy ra!")
+      message.error("Có lỗi khi tải ảnh!")
       return;
     }
 
     const urls = imageUrls.split('|').filter(url => url.trim() !== '');
     if (urls.length === 0) {
-      message.error("Có lỗi xảy ra!")
+      message.error("Có lỗi khi tải ảnh!")
       return;
     }
     const zip = new JSZip();
@@ -60,7 +61,7 @@ export default function Product(
         fetch(imageURL)
           .then(response => {
             if (!response.ok) {
-              message.error("Có lỗi xảy ra!")
+              message.error("Có lỗi khi tải ảnh!")
             }
             return response.blob();
           })
@@ -68,7 +69,7 @@ export default function Product(
             zip.file(`${namefolder}_image_${index + 1}.png`, blob);
           })
           .catch(error => {
-            message.error("Có lỗi xảy ra!")
+            message.error("Có lỗi khi tải ảnh!")
           })
       );
     });
@@ -86,7 +87,7 @@ export default function Product(
         });
       })
       .catch(error => {
-        message.error("Có lỗi xảy ra!")
+        message.error("Có lỗi khi tải ảnh!")
       });
   };
 
@@ -116,6 +117,7 @@ export default function Product(
       const bytes = CryptoJS.AES.decrypt(money, secretKey);
       const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
       setMoney(parseInt(decryptedText, 10) )
+
     } 
   },[money])
   return (

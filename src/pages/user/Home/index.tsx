@@ -15,6 +15,7 @@ export default function Home() {
   const navigate = useNavigate();
   const param = useParams()
   const isSmallScreen = useMediaQuery({ maxWidth: 992 });
+  const [reload, setReload] = useState(localStorage.getItem("reload"));
   const [currentPage, setCurrentPage] = useState(1)
   const [idCategory, setIdCategory] = useState(param.id || "all")
   const {data: category} = useQuery(['category'], ()=> getCategory())
@@ -54,7 +55,17 @@ export default function Home() {
     if(name === "all") navigate(`/`);
     else navigate(`/category/${id}/${name}`);
   }
-
+  useEffect(() => {
+    window.addEventListener('storage', () => {
+      const theme = localStorage.getItem('reload')
+      setReload(theme);
+    })
+    if (reload === "true") {
+      window.location.reload();
+      localStorage.setItem("reload", "false");
+      setReload("false"); 
+    }
+  }, [reload]);
   return ( 
     <div className={style.wrap}>
       <Header />

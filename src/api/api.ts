@@ -18,6 +18,9 @@ axiosInstance.interceptors.request.use(
     const token = Cookies.get("token");
     if (token) {
       config.headers.Authorization = `${token}`;
+    } else {
+      // logout()
+      // window.location.replace("/")
     }
     config.headers.url = window.location.href;
     return config;

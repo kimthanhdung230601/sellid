@@ -159,8 +159,9 @@
     
 }
 
-.noti:first-child {
+.noti:nth-child(2) {
     margin-bottom: 14px;
+    margin-top: 14px;
 }
 
 .inforItem{

@@ -59,7 +59,6 @@ export default function Wrapper() {
             <Component />
           ); 
       }
-    }  
-    return goToLogin("");
+    }  else return goToLogin("");
   }
 }
