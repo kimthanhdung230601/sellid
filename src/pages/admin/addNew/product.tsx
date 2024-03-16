@@ -8,6 +8,7 @@ import {
   Modal,
   Select,
   message,
+  InputNumber,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 
@@ -107,21 +108,42 @@ const Product = () => {
       const newFile = new File([file.originFileObj as Blob], newFileName, {
         type: file.type,
       });
-      console.log("n", newFile);
-
-      formData.append(`images[${index}]`, newFile, newFileName);
+      formData.append(`images[${index}]`, newFile);
     });
 
     mutation.mutate(formData);
   };
+  // const onFinish = async (value: any) => {
+  //   setLoading(true);
+  //   const formData = new FormData();
+  //   formData.append("namefolder", value.namefolder);
+  //   formData.append("category", value.category);
+  //   formData.append("price", value.price);
+  //   formData.append("description", value.description);
 
+  //   fileList.forEach((file, index) => {
+  //     formData.append(`images[${index}]`, file.originFileObj as File);
+  //   });
+  //   mutation.mutate(formData);
+  // };
+  // ----------------------reset-------------------------------
+  const onReset = () => {
+    form.resetFields();
+    setFileList([]);
+  };
   const uploadButton = (
     <button style={{ border: 0, background: "none" }} type="button">
       <PlusOutlined />
       <div style={{ marginTop: 8 }}>Upload</div>
     </button>
   );
-
+  const validatePrice = (rule: any, value: number, callback: Function) => {
+    if (value < 0) {
+      callback("Giá tiền phải lớn hơn hoặc bằng 0");
+    } else {
+      callback();
+    }
+  };
   return (
     <>
       <h1 className={styles.title}>THÊM FOLDER</h1>
@@ -154,9 +176,12 @@ const Product = () => {
               <Form.Item
                 label="Giá"
                 name="price"
-                rules={[{ required: true, message: "Vui lòng điền giá" }]}
+                rules={[
+                  { required: true, message: "Vui lòng điền giá" },
+                  { validator: validatePrice },
+                ]}
               >
-                <Input />
+                <InputNumber style={{ width: "100%" }} />
               </Form.Item>
             </Col>
             <Col xs={24} sm={12}>
@@ -199,6 +224,10 @@ const Product = () => {
             </Form.Item>
           </Row>{" "}
           <Form.Item>
+            {" "}
+            <Button className={styles.btn} htmlType="button" onClick={onReset}>
+              Hoàn tác
+            </Button>
             <Button
               type="primary"
               htmlType="submit"
