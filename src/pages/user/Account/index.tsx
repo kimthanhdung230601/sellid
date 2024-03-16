@@ -122,13 +122,13 @@ function Account() {
                             </div>
                             <div className={styles.inforItem}>
                                 <div className={styles.name}>Nội dung chuyển khoản</div>
-                                <div className={styles.value}>naptien username</div>
+                                <div className={styles.value}>naptien {userInfor?.data[0].username}</div>
                             </div>
                         </div>
                         
                     </div>
                     <div className={styles.notiWrap}>
-                    <li className={styles.noti}>Quý khách vui lòng nhập đúng nội dung chuyển khoản để nạp tiền, nội dung chuyển khoản có cú pháp <b style={{color: "#c4212a"}}>{"[naptien <tên username>]"} ví dụ "naptien maianh"</b> . Nếu nhập sai nội dung chuyển khoản, tài khoản sẽ <b style={{color: "#c4212a"}}>KHÔNG</b> nạp được tiền.</li>
+                    <li className={styles.noti}>Quý khách vui lòng nhập đúng nội dung chuyển khoản để nạp tiền, nội dung chuyển khoản có cú pháp <b style={{color: "#c4212a"}}>{"[naptien <tên username>]"} ví dụ "naptien {userInfor?.data[0].username}"</b> . Nếu nhập sai nội dung chuyển khoản, tài khoản sẽ <b style={{color: "#c4212a"}}>KHÔNG</b> nạp được tiền.</li>
                     <li className={styles.noti}>Quý khách cũng có thể quét mã QR để chuyển khoản với nội dung đã được nhập sẵn.</li>
                     <li className={styles.noti}>Sau khi chuyển khoản thành công, tài khoản sẽ được tự động cập nhật trong khoảng 1 phút </li>
                     </div>
