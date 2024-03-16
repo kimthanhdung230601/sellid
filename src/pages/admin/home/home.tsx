@@ -37,7 +37,7 @@ interface DataType {
 }
 
 const HomeAdmin = () => {
-  document.title = "Admin"
+  document.title = "Admin";
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   // const [categorySelected, setCategorySelect] = useState();
@@ -84,7 +84,7 @@ const HomeAdmin = () => {
       dataIndex: "key",
       key: "key",
       align: "center",
-      render: (text, record, index) => index + 1,
+      render: (text, record, index) => (page - 1) * 10 + index + 1,
     },
     {
       title: "Tên folder",
@@ -160,7 +160,7 @@ const HomeAdmin = () => {
   ];
   useEffect(() => {
     refetch();
-  }, [page,product?.total_products]);
+  }, [page, product?.total_products]);
   const onChange = (value: any) => {
     setPage(value);
     // refetch();

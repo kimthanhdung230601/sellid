@@ -11,36 +11,7 @@ interface BankProps {
   time: Date;
   username: string;
 }
-const columns: TableColumnsType<BankProps> = [
-  {
-    title: "ID",
-    dataIndex: "key",
-    key: "key",
-    render: (text, record, index) => index + 1,
-  },
-  {
-    title: "Họ tên",
-    dataIndex: "username",
-    key: "username",
-  },
-  { title: "Số lượng", dataIndex: "amount", key: "amount", width: 100 },
-  {
-    title: "Mã giao dịch",
-    dataIndex: "tid",
-    key: "tid",
-  },
-  {
-    title: "Nội dung",
-    dataIndex: "description",
-    key: "description",
-  },
-  {
-    title: "Thời gian",
-    dataIndex: "time",
-    key: "time",
-    width: 120,
-  },
-];
+
 const Bank = () => {
   const [pagination, setPagination] = useState("1");
   const { data: listBanks, refetch } = useQuery(["listBank"], () =>
@@ -49,7 +20,36 @@ const Bank = () => {
   const onChange = (page: any) => {
     setPagination(page);
   };
-
+  const columns: TableColumnsType<BankProps> = [
+    {
+      title: "ID",
+      dataIndex: "key",
+      key: "key",
+      render: (text, record, index) => index + 1,
+    },
+    {
+      title: "Họ tên",
+      dataIndex: "username",
+      key: "username",
+    },
+    { title: "Số lượng", dataIndex: "amount", key: "amount", width: 100 },
+    {
+      title: "Mã giao dịch",
+      dataIndex: "tid",
+      key: "tid",
+    },
+    {
+      title: "Nội dung",
+      dataIndex: "description",
+      key: "description",
+    },
+    {
+      title: "Thời gian",
+      dataIndex: "time",
+      key: "time",
+      width: 120,
+    },
+  ];
   useEffect(() => {
     refetch();
   }, [pagination, listBanks?.total_products]);
