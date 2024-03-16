@@ -2,7 +2,6 @@ import { sendGet, sendPost } from "./api"
 
 export interface IProduct {
     id: number,
-    image: string,
     namefolder: string,
     category: string,
     price: number,
@@ -29,14 +28,16 @@ const path = {
 export const getCategory = ()=>   sendGet(path.getCategory)
 
 
-export function getAllProduct (params:string) : Promise<IProductList> {
-    return sendGet(path.getAllProduct + params)
+export const getAllProduct =  (currentPage: number, category: string) : Promise<IProductList> => {
+    if(category === "all"){
+        return sendGet(path.getAllProduct + currentPage)
+    } 
+    else {
+       return sendGet(path.getAllProduct + currentPage + "&category=" + category) 
+    } 
 }
 
-export function getUserInfo () {
-    return sendGet(path.getUserInfo)
-}
+export const  getUserInfo = () => sendGet(path.getUserInfo)
 
-export function buy(params: {idproduct: string}) {
-    return sendPost(path.buy, params)
-}
+
+export const buy = (params: {idproduct: string}) => sendPost(path.buy, params)

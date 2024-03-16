@@ -32,6 +32,7 @@ const getBase64 = (file: FileType): Promise<string> =>
   });
 
 const Product = () => {
+  document.title = "Thêm mới"
   const { data: categories } = useQuery("categories", () => getCategories());
   const antdOptions = categories?.data.map((item: any) => ({
     value: item.id,

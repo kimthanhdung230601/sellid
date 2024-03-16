@@ -7,10 +7,11 @@ import { useMutation, useQueryClient } from 'react-query'
 import Cookies from 'js-cookie'
 import { useNavigate } from 'react-router'
 import JSZip from 'jszip';
+import CryptoJS from 'crypto-js'
 
 export default function Product(
-  {id, image, namefolder, category, price, description, total_products, setCurrentPage, currentPage }
-  :{id:number, image:string, namefolder:string, category:string, price:number, description:string , total_products: number, setCurrentPage: any, currentPage: number}) {
+  {id, namefolder, category, price, description, total_products, setCurrentPage, currentPage }
+  :{id:number, namefolder:string, category:string, price:number, description:string , total_products: number, setCurrentPage: any, currentPage: number}) {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const [open, setOpen] = useState(false);
@@ -28,6 +29,7 @@ export default function Product(
               setCurrentPage(1)
             } else {
               queryClient.invalidateQueries('product')
+              queryClient.invalidateQueries('userInfo')
             } 
           }, 2000)
           
@@ -40,7 +42,6 @@ export default function Product(
     }
   )
   const handleDownload = async (imageUrls: string) => {
-    console.log(imageUrls)
     if (!imageUrls) {
       message.error("Có lỗi xảy ra!")
       return;
@@ -93,18 +94,7 @@ export default function Product(
     setOpen(true);
   };
   const handleOk1 = () => {
-    if(Cookies.get("money")) {
-      if(money >= price) {
-        setIsModalOpen(true)
-      } else {
-        message.error("Tài khoản của bạn không đủ, vui lòng kiểm tra lại")
-      }
-    } else {
-      message.info("Vui lòng đăng nhập để tiếp tục")
-      setTimeout(()=> {
-          navigate('/dang-nhap')
-      },3000)
-    }
+      setIsModalOpen(true)
       setOpen(false);
   };
   const handleCancel1 = () => {
@@ -121,8 +111,13 @@ export default function Product(
   };
   useEffect(()=>{
     const money = Cookies.get("money")
-    if(money) setMoney(parseInt(money, 10) )
-  },[])
+    if(money){
+      const secretKey = process.env.REACT_APP_SECRET_KEY as string
+      const bytes = CryptoJS.AES.decrypt(money, secretKey);
+      const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
+      setMoney(parseInt(decryptedText, 10) )
+    } 
+  },[money])
   return (
     <div key={id}>
     <Col xxl={5} xl={6} lg={6} md={8} sm={12} xs={12} className={`${style.wrap} gutter-row`}>
@@ -155,9 +150,8 @@ export default function Product(
         onCancel={handleCancel1}
         cancelText={"Huỷ"}
         okText={(<span>Mua ngay</span>)}
+        okButtonProps={money >= price ? {disabled: false} : {disabled: true}}
         className={style.modalFolder}
-        // okButtonProps={ money >= price && Cookies.get("admin") ? {disabled: false} : {disabled: true} }
-        
       >
         <div className={style.confirm}>
           <div className={style.confirmItem}>
@@ -178,13 +172,6 @@ export default function Product(
           </div>
           
         </div>
-        {/* <Image.PreviewGroup
-            preview={{
-            onChange: (current, prev) => console.log(`current index: ${current}, prev index: ${prev}`),
-            }}
-        >
-            <Image width={100} src={require("../../../assets/image/idcard.png")}  className={style.imgGroup}/>
-        </Image.PreviewGroup> */}
       </Modal>
       <Modal 
         title="Xác nhận mua hàng" 

@@ -32,7 +32,7 @@ const Layout = () => {
         <div
           onClick={() => handleItemClick("product")}
           className={`${styles.headerItem} ${
-            window.location.pathname.includes("/admin/product") ? styles.selected : ""
+            window.location.pathname.includes("/admin/them-moi") ? styles.selected : ""
           }`}
         >
           <span className={styles.text}>Thêm Folder</span>
@@ -40,7 +40,7 @@ const Layout = () => {
         <div
           onClick={() => handleItemClick("profile")}
           className={`${styles.headerItem} ${
-            window.location.pathname.includes("/admin/profile") ? styles.selected : ""
+            window.location.pathname.includes("/admin/quan-ly-chung") ? styles.selected : ""
           }`}
         >
           <span className={styles.text}>Quản lý</span>

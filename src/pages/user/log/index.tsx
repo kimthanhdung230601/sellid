@@ -5,10 +5,11 @@ import LogInComponent from "./logIn";
 interface LogInProps {}
 
 const LogIn = () => {
-  const [selected, setSelected] = useState("login");
-  const handleClickSelect = (value: any) => {
-    setSelected(value);
-  };
+    document.title = "Đăng nhập - Đăng ký"
+    const [selected,setSelected] = useState("login");
+    const handleClickSelect = (value:any)=>{
+        setSelected(value);
+    }
   return (
     <div className={styles.wrap}>
       <div className={styles.logWrap}>
