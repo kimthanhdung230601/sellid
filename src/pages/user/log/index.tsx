@@ -11,19 +11,31 @@ const LogIn = () => {
         setSelected(value);
     }
   return (
-    <>
-      <div className={styles.wrap}>
-        <div className={styles.logWrap}>
-            <div className={styles.titleGroup}>
-                <h3 className={`${styles.title} ${selected ==="login"? styles.selected :""}`  } onClick={()=>handleClickSelect("login")}>Đăng nhập</h3>
-                <h3 className={`${styles.title} ${selected ==="register"? styles.selected :""}`} onClick={()=>handleClickSelect("register")}>Đăng ký</h3>
-            </div>
-            <div className={styles.formGroup}>
-                {selected ==="login" ? <LogInComponent/> : <Register/>}
-            </div>
+    <div className={styles.wrap}>
+      <div className={styles.logWrap}>
+        <div className={styles.titleGroup}>
+          <h3
+            className={`${styles.title} ${
+              selected === "login" ? styles.selected : ""
+            }`}
+            onClick={() => handleClickSelect("login")}
+          >
+            Đăng nhập
+          </h3>
+          <h3
+            className={`${styles.title} ${
+              selected === "register" ? styles.selected : ""
+            }`}
+            onClick={() => handleClickSelect("register")}
+          >
+            Đăng ký
+          </h3>
+        </div>
+        <div className={styles.formGroup}>
+          {selected === "login" ? <LogInComponent /> : <Register setSelected={setSelected} />}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

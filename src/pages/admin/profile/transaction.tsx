@@ -13,8 +13,10 @@ interface TransactionProps {
 const columns: TableColumnsType<TransactionProps> = [
   {
     title: "ID",
-    dataIndex: "id",
-    key: "id",
+    dataIndex: "key",
+    key: "key",
+    render: (text, record, index) => index + 1,
+
   },
   {
     title: "Họ tên",
@@ -45,7 +47,7 @@ const Transaction = () => {
   };
   useEffect(() => {
     refetch();
-  }, [pagination]);
+  }, [pagination,transaction?.total_products]);
   return (
     <>
       {" "}
@@ -53,10 +55,11 @@ const Transaction = () => {
       <Table
         dataSource={transaction?.data}
         columns={columns}
+        style={{ overflowX: "auto" }}
         pagination={{
           defaultCurrent: 1,
           onChange: onChange,
-          total: transaction?.total_pages + 10,
+          total: transaction?.total_products,
         }}
       />
     </>
