@@ -20,18 +20,6 @@ const LogInComponent = () => {
         password: value.password,
       };
       const res = await logIn(payload);
-      const username = CryptoJS.AES.encrypt(
-        res?.info_user[0].username,
-        secretKey
-      ).toString();
-      const fullname = CryptoJS.AES.encrypt(
-        res.info_user[0].fullname,
-        secretKey
-      ).toString();
-      const phone = CryptoJS.AES.encrypt(
-        res.info_user[0].phone,
-        secretKey
-      ).toString();
       const money = CryptoJS.AES.encrypt(
         res.info_user[0].money,
         secretKey
@@ -41,9 +29,6 @@ const LogInComponent = () => {
         if (res.isAdmin === "1") navigate("/admin");
         else navigate("/");
         Cookies.set("token", res.jwt);
-        Cookies.set("username", username);
-        Cookies.set("fullname", fullname);
-        Cookies.set("phone", phone);
         Cookies.set("money", money);
         const isAdmin = CryptoJS.AES.encrypt(
           res?.isAdmin,
@@ -56,8 +41,6 @@ const LogInComponent = () => {
       message.error(
         "Đăng nhập thất bại, vui lòng kiểm tra lại tài khoản hoặc mật khẩu"
       );
-      // alert("Đăng nhập thất bại");
-      // console.log("error", error);
     }
   };
   return (

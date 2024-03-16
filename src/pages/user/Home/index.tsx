@@ -8,35 +8,40 @@ import Header from '../../../components/user/Header'
 import Product from '../../../components/user/Product'
 import style from "./Home.module.scss"
 import { useMediaQuery } from 'react-responsive'
+import Cookies from 'js-cookie'
 
 export default function Home() {
   document.title = "Tạp hoá hình"
   const navigate = useNavigate();
   const param = useParams()
-  const location = useLocation()
   const isSmallScreen = useMediaQuery({ maxWidth: 992 });
   const [currentPage, setCurrentPage] = useState(1)
-  const [category, setCategory] = useState([])
-  const [idCategory, setIdCategory] = useState(param.category?.charAt(0) || 0)
-  const {data: categoryData} = useQuery(['category'], ()=> getCategory())
-  const {data: product, isFetching} = useQuery(['product', idCategory, currentPage], ()=> getAllProduct(`${currentPage}&category=${idCategory}`))
+  const [idCategory, setIdCategory] = useState(param.id || "all")
+  const {data: category} = useQuery(['category'], ()=> getCategory())
+  const {data: product, isFetching} = useQuery(['product', idCategory, currentPage], ()=> getAllProduct(currentPage, idCategory))
   const items: CollapseProps['items'] = [
     {
       key: '1',
       label: <div className={style.filter}>Lọc chuyên mục</div>,
       children: (
+        <>
+        <div className={style.category}>
+          <span className={ JSON.stringify(param) === "{}" ? `${style.categoryName} ${style.categoryActive}` : `${style.categoryName}`} onClick={() => handleSelected("all", "all")}>Tất cả</span>
+        </div>
         <div className={style.filterWrap}>
             {
-              category?.map((item : any, index: number) => {
+              category?.data.map((item : any, index: number) => {
                 
                 return (
                   <div className={style.category} key={item.id}>
-                    <span className={param.category?.charAt(0) === item.id || idCategory == item.id ? `${style.categoryName} ${style.categoryActive}` : `${style.categoryName}`} onClick={() => handleSelected(item.name, item.id)}>{item.name}</span>
+                    <span className={param.id === item.id && JSON.stringify(param) !== "{}"  ? `${style.categoryName} ${style.categoryActive}` : `${style.categoryName}`} onClick={() => handleSelected(item.name, item.id)}>{item.name}</span>
                   </div>
                 )
               })
             }
         </div>
+        </>
+        
       ),
     },
   ]
@@ -46,16 +51,10 @@ export default function Home() {
   const handleSelected = (name: string, id:string) => {
     setIdCategory(id)
     setCurrentPage(1)
-    navigate(`/${id}-${name}`);
+    if(name === "all") navigate(`/`);
+    else navigate(`/category/${id}/${name}`);
   }
-  
-  useEffect(()=> {
-    if(categoryData){
-      const data = categoryData?.data.reverse()
-      setCategory(data)
-    }
-  },[categoryData])
- 
+
   return ( 
     <div className={style.wrap}>
       <Header />
@@ -67,15 +66,17 @@ export default function Home() {
           </Col>
           <Col xxl={20} xl={20} lg={24} md={24} sm={24} xs={24}>
             <Row gutter={50} justify="center" className={style.row}>
-              { isFetching ? <Spin size="large"/> : (
+              { 
+              Cookies.get("token") ?
+              isFetching ? 
+              <Spin  size="large"/> : (
                product?.status === "success" ?
                 product?.data.map((item: IProduct, index: number) => {
                   return (
                     <Product 
                     id={item.id}
-                    image= {item.image}
                     namefolder= {item.namefolder}
-                    category={item.category}
+                    category={param?.category || item.category}
                     price={item.price}
                     description={item.description}
                     total_products = {product?.data.length}
@@ -90,6 +91,11 @@ export default function Home() {
                     <div style={{fontSize: "20px", marginTop: "20px"}}>Sản phẩm trong chuyên mục này đã bán hết</div>
                 </div>
               )
+              :
+              <div style={{textAlign: "center", paddingTop: "20px", paddingBottom: "20px"}}>
+                    <FrownOutlined style={{fontSize: "20px"}}/>
+                    <div style={{fontSize: "20px", marginTop: "20px"}}>Bạn cần đăng nhập để xem sản phẩm</div>
+                </div>
               }
           </Row>
           {isFetching ? null : (
