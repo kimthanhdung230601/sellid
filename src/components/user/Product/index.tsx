@@ -117,7 +117,7 @@ export default function Product(
       const bytes = CryptoJS.AES.decrypt(money, secretKey);
       const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
       setMoney(parseInt(decryptedText, 10) )
-      console.log("tiền", decryptedText)
+
     } 
   },[money])
   return (
