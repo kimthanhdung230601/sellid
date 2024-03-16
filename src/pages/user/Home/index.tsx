@@ -76,7 +76,7 @@ export default function Home() {
             
           </Col>
           <Col xxl={20} xl={20} lg={24} md={24} sm={24} xs={24}>
-            <Row gutter={50} justify="center" className={style.row}>
+            <Row gutter={isSmallScreen ? 16 :50} justify="center" className={style.row}>
               { 
               Cookies.get("token") ?
               isFetching ? 

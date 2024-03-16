@@ -121,11 +121,11 @@ export default function Product(
     } 
   },[money])
   return (
-    <div key={id}>
-    <Col xxl={5} xl={6} lg={6} md={8} sm={12} xs={12} className={`${style.wrap} gutter-row`}>
-        <div >
+    <>
+    <Col xxl={5} xl={6} lg={6} md={12} sm={12} xs={12} className={` gutter-row`} key={id}>
+        <div className={style.wrap}>
             <div className={style.imageWrap}>
-           <Image src={require("../../../assets/image/idcard.png")} preview={false} className={style.img}/> 
+           <Image src={require("../../../assets/image/tep.png")} preview={false} className={style.img}/> 
         </div>
         
         <div className={`${style.item} ${style.name}`}>
@@ -187,7 +187,7 @@ export default function Product(
         </div>
       </Modal>
   
-    </div>
+    </>
     
   )
 }
