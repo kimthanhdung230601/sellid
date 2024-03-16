@@ -1,6 +1,6 @@
 import { CheckCircleOutlined } from "@ant-design/icons";
 import styles from "./Account.module.scss";
-import { Col, Image, Modal, Row, Table } from "antd";
+import { Col, Image, Modal, Row, Table, Spin } from "antd";
 import Header from "../../../components/user/Header";
 import { formatCurrency } from "../../../constant/currencyFormatter";
 import { useQuery } from "react-query";
@@ -12,43 +12,49 @@ import { useLocation } from "react-router";
 
 function Account() {
   document.title = "Tài khoản"
-  const location = useLocation()
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [money, setMoney] = useState(0)
-  const {data: userInfor} = useQuery(["userInfo"], () => getUserInfo(),{
+  const [reload, setReload] = useState(localStorage.getItem("reload"));
+  const {data: userInfor, refetch, isFetching} = useQuery(["userInfo"], () => getUserInfo(),{
     staleTime: 60000,
     cacheTime: Infinity,
     refetchInterval: 60000, 
     onSettled: (fetchedData) => {
-      const money = Cookies.get("money")
+      const money = Cookies.get("money") as string
       const secretKey = process.env.REACT_APP_SECRET_KEY as string
+
+      const saveMoney = CryptoJS.AES.encrypt(
+        fetchedData?.data[0].money,
+        secretKey
+      ).toString();
+      Cookies.set("money", saveMoney)
       if(money){
         const bytes = CryptoJS.AES.decrypt(money, secretKey);
         const decryptedMoney= bytes.toString(CryptoJS.enc.Utf8);
         const result = parseInt(fetchedData?.data[0].money, 10) - parseInt(decryptedMoney, 10)
-        console.log(decryptedMoney)
         if(result > 0){
-          const saveMoney = CryptoJS.AES.encrypt(
-            fetchedData?.data[0].money,
-            secretKey
-          ).toString();
-          Cookies.set("money", saveMoney)
           setIsModalOpen(true)
           setMoney(result)
-        }
-      } else{
-        const saveMoney = CryptoJS.AES.encrypt(
-          fetchedData?.data[0].money,
-          secretKey
-        ).toString();
-        Cookies.set("money", saveMoney)
-      }
+          localStorage.setItem("reload", "true")
+        } 
+      } 
     },
   })
+  const isFirstFetchFetching = isFetching && !userInfor;
   const handleOk = () => {
     setIsModalOpen(false);
   };
-  console.log(location.pathname)
+  useEffect(() => {
+    window.addEventListener('storage', () => {
+      const theme = localStorage.getItem('reload')
+      setReload(theme);
+    })
+    if (reload === "true") {
+      refetch()
+      localStorage.setItem("reload", "false");
+      setReload("false"); 
+    }
+  }, [reload]);
   return (
     <div className={styles.wrapper}>
         <Header />
@@ -67,15 +73,25 @@ function Account() {
                     <CheckCircleOutlined className={styles.aboutIcon}/>
                     </div>
                   </div>
-
-                  <div className={styles.aboutName}>{userInfor?.data[0].username}</div>
-                  <div className={styles.aboutEmail}>
-                  {userInfor?.data[0].email}
-                  </div>
+                  {isFirstFetchFetching ? <div className={styles.aboutName}>loading...</div> : <div className={styles.aboutName}>{ userInfor?.data[0].username}</div>}
+                  {isFirstFetchFetching? 
+                    <div className={styles.aboutEmail}>
+                      loading...
+                    </div>
+                    : 
+                    <div className={styles.aboutEmail}>
+                      {userInfor?.data[0].email}
+                    </div>
+                  }
+                  
                   <div className={styles.aboutSpending}>
                     <div className={styles.spending}>
                       <span className={styles.spendingText}>Số dư: </span>
-                    <div className={styles.spendingNumber}>{formatCurrency(parseInt(userInfor?.data[0].money, 10))}{" "} VNĐ</div>
+                      {
+                        isFirstFetchFetching ? <div className={styles.spendingNumber}>loading...</div>
+                        : <div className={styles.spendingNumber}>{formatCurrency(parseInt(userInfor?.data[0].money, 10))}{" "} VNĐ</div>
+                      }
+                    
                       
                     </div>
                     {/* <div className={styles.spendingItem}>
@@ -114,6 +130,7 @@ function Account() {
                     <div className={styles.notiWrap}>
                     <li className={styles.noti}>Quý khách vui lòng nhập đúng nội dung chuyển khoản để nạp tiền, nội dung chuyển khoản có cú pháp <b style={{color: "#c4212a"}}>{"[naptien <tên username>]"} ví dụ "naptien maianh"</b> . Nếu nhập sai nội dung chuyển khoản, tài khoản sẽ <b style={{color: "#c4212a"}}>KHÔNG</b> nạp được tiền.</li>
                     <li className={styles.noti}>Quý khách cũng có thể quét mã QR để chuyển khoản với nội dung đã được nhập sẵn.</li>
+                    <li className={styles.noti}>Sau khi chuyển khoản thành công, tài khoản sẽ được tự động cập nhật trong khoảng 1 phút </li>
                     </div>
                     
                 </div>
