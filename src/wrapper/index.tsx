@@ -65,6 +65,7 @@ const Wrapper = () => {
           <Route path="/:category" element={<Home />} />
           <Route path="/dang-nhap" element={<LogIn />} />
           <Route path="/tai-khoan" element={<Account />} />
+          <Route path="*" element={<LogIn/>} />
         </Routes>
       )}
     </>

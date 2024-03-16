@@ -12,6 +12,7 @@ const ModalDetailProducts = ({
   handleOk,
   image,
 }: modalProp) => {
+  
   return (
     <>
       <Modal
@@ -29,7 +30,7 @@ const ModalDetailProducts = ({
               .map((imageUrl: string, index: number) => (
                 <Image
                   key={index}
-                  src={"https://taphoahinh.com/PHP_IMG/" + imageUrl.trim()}
+                  src={`https://taphoahinh.com/PHP_IMG/${imageUrl.trim()}`}
                   alt={`Image`}
                   style={{ height: 120, width: 200,margin:"0 10px 10px 0px", objectFit: "cover" }}
                 />

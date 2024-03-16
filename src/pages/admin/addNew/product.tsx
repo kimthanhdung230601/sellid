@@ -54,9 +54,19 @@ const Product = () => {
 
     setPreviewImage(file.url || (file.preview as string));
     setPreviewOpen(true);
-    setPreviewTitle(
-      file.name || file.url!.substring(file.url!.lastIndexOf("/") + 1)
-    );
+
+    // Tách phần tên và phần đuôi của tệp
+    const fileName = file.name;
+    const fileExtension = fileName.split(".").pop(); // Lấy phần đuôi của tệp
+    const fileNameWithoutExtension = fileName.split(".").slice(0, -1).join("."); // Lấy phần tên của tệp
+
+    // Mã hóa phần tên của tệp bằng MD5
+    const hashedFileName = CryptoJS.MD5(fileNameWithoutExtension).toString();
+
+    // Tạo tên mới bằng cách ghép phần tên đã mã hóa và phần đuôi
+    const newFileName = `${hashedFileName}.${fileExtension}`;
+
+    setPreviewTitle(newFileName);
   };
 
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
@@ -72,11 +82,27 @@ const Product = () => {
       formData.append("description", value.description);
 
       fileList.forEach((file, index) => {
-        const hashedFileName = CryptoJS.MD5(file.name).toString();
+        // Tách phần tên và phần đuôi của tệp
+        const fileName = file.name;
+        const fileExtension = fileName.split(".").pop(); // Lấy phần đuôi của tệp
+        const fileNameWithoutExtension = fileName
+          .split(".")
+          .slice(0, -1)
+          .join("."); // Lấy phần tên của tệp
+
+        // Mã hóa phần tên của tệp bằng MD5
+        const hashedFileName = CryptoJS.MD5(
+          fileNameWithoutExtension
+        ).toString();
+
+        // Tạo tên mới bằng cách ghép phần tên đã mã hóa và phần đuôi
+        const newFileName = `${hashedFileName}.${fileExtension}`;
+
+        // Thêm tệp vào FormData với tên mới
         formData.append(
           `images[${index}]`,
           file.originFileObj as File,
-          hashedFileName
+          newFileName
         );
       });
       const res = await postAddProduct(formData);
