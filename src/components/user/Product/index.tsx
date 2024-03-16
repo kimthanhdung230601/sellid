@@ -12,7 +12,8 @@ import CryptoJS from 'crypto-js'
 export default function Product(
   {id, namefolder, category, price, description, total_products, setCurrentPage, currentPage }
   :{id:number, namefolder:string, category:string, price:number, description:string , total_products: number, setCurrentPage: any, currentPage: number}) {
-  const navigate = useNavigate()
+  const columns = 5; 
+  const spanValue = Math.floor(24 / columns); 
   const queryClient = useQueryClient()
   const [open, setOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -122,8 +123,8 @@ export default function Product(
   },[money])
   return (
     <>
-    <Col xxl={5} xl={6} lg={6} md={12} sm={12} xs={12} className={` gutter-row`} key={id}>
-        <div className={style.wrap}>
+    <Col  xxl={5} xl={5} lg={5} md={8} sm={12} xs={12} className={` ${style.wrap} gutter-row`} key={id}>
+        <div style={{margin: "0 auto"}}>
             <div className={style.imageWrap}>
            <Image src={require("../../../assets/image/tep.png")} preview={false} className={style.img}/> 
         </div>
@@ -143,7 +144,6 @@ export default function Product(
         
         <div className={style.btn} onClick={showModal1}>Xem</div>
         </div>
-        
     </Col>
     <Modal
         title="Chi tiết thư mục"
