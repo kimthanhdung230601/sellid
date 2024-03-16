@@ -71,8 +71,11 @@ const Product = () => {
     setPreviewTitle(newFileName);
   };
 
-  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
-    setFileList(newFileList);
+  const handleChange = (info: any) => {
+    let fileList = [...info.fileList];
+
+    setFileList(fileList);
+  };
   const [loading, setLoading] = useState(false);
   const mutation = useMutation(postAddProduct, {
     onSuccess: () => {
@@ -201,7 +204,7 @@ const Product = () => {
               name="image[]"
             >
               <Upload
-                // action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+                multiple
                 listType="picture-card"
                 fileList={fileList}
                 onPreview={handlePreview}
