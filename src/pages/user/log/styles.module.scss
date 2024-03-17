@@ -1,6 +1,6 @@
 .wrap {
   position: relative;
-  padding:10vh 20% ;
+  padding: 10vh 20%;
   min-height: 100vh;
   height: 100%;
   background-color: #cfecf5;
@@ -9,13 +9,12 @@
     height: auto;
     border-radius: 20px;
     padding: 0 20vh 10vh 20vh;
-    // margin-bottom: 29%;
   }
   .titleGroup {
     display: flex;
     justify-content: center;
     align-items: center;
-    h3{
+    h3 {
       // width: 150%;
     }
     .title {
@@ -32,31 +31,33 @@
 .btn {
   float: right;
 }
-@media  (max-width: 992px) {
-    .wrap{
-        padding: 8vh 3vh;
-        height: auto;
-        .logWrap {
-            background-color: #ffff;
-            border-radius: 20px;
-             padding: 0 4vh 2vh 4vh;
-            margin-bottom: 12%;
-          
-          }
-          .titleGroup {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            .title {
-              cursor: pointer;
-              margin: 40px 10px 68px 10px;
-            }
-          }
+@media (max-width: 992px) {
+  .wrap {
+    padding: 8vh 3vh;
+    height: auto;
+    .logWrap {
+      background-color: #ffff;
+      border-radius: 20px;
+      padding: 0 4vh 2vh 4vh;
+      margin-bottom: 12%;
     }
+    .titleGroup {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .title {
+        cursor: pointer;
+        margin: 40px 10px 68px 10px;
+      }
+    }
+  }
+}
+.error{
+  margin: 3vh;
 }
 // @media (max-width: 1361px) {
 //     .wrap{
 //         padding: 10vh 24vh;
 //     }
-    
+
 //   }

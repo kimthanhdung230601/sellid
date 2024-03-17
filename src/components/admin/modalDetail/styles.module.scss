@@ -1,0 +1,21 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.imageContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.imageWrapper {
+  margin: 5px; /* Điều chỉnh khoảng cách giữa các ảnh */
+}
+
+@media (max-width: 768px) {
+  .imageContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+}

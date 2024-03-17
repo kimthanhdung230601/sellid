@@ -1,4 +1,4 @@
-import { PaginationProps, Table, TableColumnsType } from "antd";
+import { Pagination, PaginationProps, Table, TableColumnsType } from "antd";
 import styles from "./styles.module.scss";
 import { useQuery } from "react-query";
 import { getTransaction } from "../../../api/admin";
@@ -55,11 +55,13 @@ const Transaction = () => {
         dataSource={transaction?.data}
         columns={columns}
         style={{ overflowX: "auto" }}
-        pagination={{
-          defaultCurrent: 1,
-          onChange: onChange,
-          total: transaction?.total_products,
-        }}
+        pagination={false}
+      />
+       <Pagination
+        defaultCurrent={1}
+        onChange={onChange}
+        total={transaction?.total_products}
+        style={{ margin: "1vh 0", float: "right" }}
       />
     </>
   );

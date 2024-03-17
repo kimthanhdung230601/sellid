@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import styles from "./styles.module.scss";
 import { getListBank } from "../../../api/admin";
-import { Table, TableColumnsType } from "antd";
+import { Pagination, Table, TableColumnsType } from "antd";
 import { useEffect, useState } from "react";
 interface BankProps {
   id: any;
@@ -60,11 +60,13 @@ const Bank = () => {
         dataSource={listBanks?.data}
         columns={columns}
         style={{ overflowX: "auto" }}
-        pagination={{
-          defaultCurrent: 1,
-          onChange: onChange,
-          total: listBanks?.total_products,
-        }}
+        pagination={false}
+      />
+      <Pagination
+        defaultCurrent={1}
+        onChange={onChange}
+        total={listBanks?.total_products}
+        style={{ margin: "1vh 0", float: "right" }}
       />
     </>
   );

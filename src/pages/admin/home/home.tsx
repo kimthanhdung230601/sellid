@@ -185,11 +185,13 @@ const HomeAdmin = () => {
                 columns={columns}
                 dataSource={product?.data}
                 style={{ overflowX: "auto" }}
-                pagination={{
-                  defaultCurrent: 1,
-                  onChange: onChange,
-                  total: product?.total_products,
-                }}
+                pagination={false}
+              />
+              <Pagination
+                defaultCurrent={1}
+                onChange={onChange}
+                total={product?.total_products}
+                style={{margin:"1vh 0", float:"right"}}
               />
             </>
           </div>
