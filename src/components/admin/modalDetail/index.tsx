@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Button, Image, Modal,Spin } from "antd";
+import { Button, Image, Modal, Spin } from "antd";
+import styles from "./styles.module.scss";
+
 interface modalProp {
   isModalOpen: any;
   handleOk: () => void;
@@ -12,7 +14,6 @@ const ModalDetailProducts = ({
   handleOk,
   image,
 }: modalProp) => {
-  
   return (
     <>
       <Modal
@@ -21,20 +22,24 @@ const ModalDetailProducts = ({
         onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
+        confirmLoading={image}
       >
-        <div>
+        <div className={styles.wrapper}>
           <Image.PreviewGroup>
-            {image
-              ?.split("|")
-              .filter(Boolean)
-              .map((imageUrl: string, index: number) => (
-                <Image
-                  key={index}
-                  src={`https://taphoahinh.com/PHP_IMG/${imageUrl.trim()}`}
-                  alt={`Image`}
-                  style={{ height: 120, width: 200,margin:"0 10px 10px 0px", objectFit: "cover" }}
-                />
-              ))}
+            <div className={styles.imageContainer}>
+              {image
+                ?.split("|")
+                .filter(Boolean)
+                .map((imageUrl: string, index: number) => (
+                  <div className={styles.imageWrapper} key={index}>
+                    <Image
+                      src={`https://taphoahinh.com/PHP_IMG/${imageUrl.trim()}`}
+                      alt={`Image`}
+                      style={{ height: 120, width: 200, objectFit: "cover"}}
+                    />
+                  </div>
+                ))}
+            </div>
           </Image.PreviewGroup>
         </div>
       </Modal>

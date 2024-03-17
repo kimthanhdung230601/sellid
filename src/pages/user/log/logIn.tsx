@@ -39,7 +39,7 @@ const LogInComponent = () => {
       } else message.error(res.data);
     } catch (error: any) {
       message.error(
-        "Đăng nhập thất bại, vui lòng kiểm tra lại tài khoản hoặc mật khẩu"
+        "Đăng nhập thất bại"
       );
     }
   };
