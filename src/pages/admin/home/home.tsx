@@ -112,8 +112,9 @@ const HomeAdmin = () => {
       dataIndex: "price",
       key: "price",
       width: 120,
-      render: (text: any) => <div style={{ color: "#008000" }}> {formatCurrency(text)}</div>,
-
+      render: (text: any) => (
+        <div style={{ color: "#008000" }}> {formatCurrency(text)}</div>
+      ),
     },
     {
       title: "Mô tả",
@@ -184,17 +185,17 @@ const HomeAdmin = () => {
             {" "}
             <>
               {" "}
-              <Pagination
-                defaultCurrent={1}
-                onChange={onChange}
-                total={product?.total_products}
-                pageSize={12}
-                style={{ margin: "1vh 0", float: "right" }}
+              <Table
+                columns={columns}
+                dataSource={product?.data}
+                style={{ overflowX: "auto" }}
+                pagination={false}
               />
               <Pagination
                 defaultCurrent={1}
                 onChange={onChange}
                 total={product?.total_products}
+                pageSize={12}
                 style={{ margin: "1vh 0", float: "right" }}
               />
             </>
