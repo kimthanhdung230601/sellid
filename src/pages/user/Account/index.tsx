@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import CryptoJS from "crypto-js";
 import { useLocation } from "react-router";
+import { userInfo } from "os";
 
 function Account() {
   document.title = "Tài khoản"
@@ -19,7 +20,8 @@ function Account() {
     staleTime: 60000,
     cacheTime: Infinity,
     refetchInterval: 60000, 
-    onSettled: (fetchedData) => {
+    enabled: Cookies.get("token") !== undefined,
+    onSuccess: (fetchedData) => {
       const money = Cookies.get("money") as string
       const secretKey = process.env.REACT_APP_SECRET_KEY as string
 
@@ -57,10 +59,10 @@ function Account() {
   }, [reload]);
   return (
     <div className={styles.wrapper}>
-        <Header />
+        <Header status={userInfor?.data[0].money}/>
         <div className={styles.container}>
             <Row gutter={40} className={styles.row}>
-              <Col span={10} xxl={10} lg={10} md={24} sm={24} xs={24}>
+              <Col span={10} xxl={10} xl={10} lg={24} md={24} sm={24} xs={24}>
                 <div className={styles.accountAbout}>
                   <div className={styles.userInfor}>
                     <div className={styles.abountImgWrap}>
@@ -94,15 +96,11 @@ function Account() {
                     
                       
                     </div>
-                    {/* <div className={styles.spendingItem}>
-                    <div className={styles.spendingNumber}>{formatCurrency(parseInt(userInfor?.data[0].total_money, 10))} {" "} VNĐ</div>
-                      <div className={styles.spendingText}>Đã nạp</div>
-                    </div> */}
-                    
+
                   </div>
                 </div>
               </Col>
-              <Col span={14} xxl={14} lg={14} md={24} sm={24} xs={24} >
+              <Col span={14} xxl={14} xl={14} lg={24} md={24} sm={24} xs={24} >
                 <div className={styles.inforWrap}>
                 <div className={styles.title}>Nạp tiền</div>
                     <div className={styles.infor}>

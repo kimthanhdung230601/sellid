@@ -39,18 +39,18 @@
     width: 100%;
     position: fixed;
     align-items: center;
-    padding: 23px 10.8333333%;
+    padding: 23px calc(10.72% + 16px) ;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.4);
     background-color: #fff;
     z-index: 100;
 }
 
 .headerItem{
-    font-size: 16px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  color: #000;
 }
 
 .name{
@@ -58,48 +58,74 @@
     align-self: center;
 }
 
+.userIcon{
+  color: #167fff;
+  font-weight: bold;
+  font-size: 20px;
+}
+
 .icon{
-    position: relative;
-    font-size: 18px;
-    &:hover{
-        .userMenu{
-            display: block;
-        }
-    }
-    &::after{
-        content: "";
-        display: block;
-        position: absolute;
-        bottom: -30px;
-        right: -10px;
-        border-style: solid;
-        border-color: transparent;
-        border-width: 17px 50px;
-    }
+  cursor: pointer;
+  position: relative;
+  font-size: 16px;
+  
+  &:hover{
+      .userMenu{
+          display: block;
+      }
+  }
+  &::after{
+      content: "";
+      display: block;
+      position: absolute;
+      bottom: -30px;
+      right: -10px;
+      border-style: solid;
+      border-color: transparent;
+      border-width: 17px 50px;
+  }
 }
 
 .userMenu{
-    display: none;
-    margin-top: 30px;
-    width: 170px;
-    right: 0;
-    transform: translateX(10%);
-    position: absolute;
-    border-radius: 4px;
-    background-color: #f8f8f8;
-    overflow: hidden;
-    z-index: 1;
+  display: none;
+  margin-top: 30px;
+  width: 170px;
+  right: 0;
+  transform: translateX(10%);
+  position: absolute;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  overflow: hidden;
+  z-index: 1;
 }
 
 .menuItem{
-    padding: 12px 20px;
-    list-style: none;
-    background-color: #CFECF5;
+  padding: 12px 20px;
+  list-style: none;
+  background-color: #DEF5FD;
+  color: #000;
+  &:hover {
+      animation: opacity 0.5s ease;
+  }
 }
 
 .menuItem:hover{
-    background-color: #73DCFF;
-    cursor: pointer;
-    color: #fff;
+  background-color: #73DCFF;
+  color: #fff;
+  animation: opacity 0.5s ease;
 }
+
+@keyframes opacity {
+  from {
+    opacity: 0.4;
+    background-color: #DEF5FD;
+    color: #fff;
+  }
+  to {
+    opacity: 1;
+    background-color: #73DCFF;
+    color: #fff;
+  }
+}
+
 

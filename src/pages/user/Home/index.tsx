@@ -1,20 +1,26 @@
 import { Col, Pagination, Row, Spin, CollapseProps, Collapse   } from 'antd'
 import React, { useState, useEffect } from 'react'
 import { useQuery } from 'react-query'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { getAllProduct, getCategory, IProduct } from '../../../api/ApiUser'
-import {FrownOutlined, MinusOutlined, PlusOutlined} from "@ant-design/icons"
+import { WarningFilled} from "@ant-design/icons"
 import Header from '../../../components/user/Header'
 import Product from '../../../components/user/Product'
 import style from "./Home.module.scss"
 import { useMediaQuery } from 'react-responsive'
 import Cookies from 'js-cookie'
-
+import CryptoJS from 'crypto-js'
+const secretKey = process.env.REACT_APP_SECRET_KEY as string
+const decrypt = (value: string) => {
+  const bytes = CryptoJS.AES.decrypt(value, secretKey);
+  return bytes.toString(CryptoJS.enc.Utf8);
+}
 export default function Home() {
   document.title = "Tạp hoá hình"
   const navigate = useNavigate();
   const param = useParams()
   const isSmallScreen = useMediaQuery({ maxWidth: 992 });
+  const [money, setMoney] = useState(0)
   const [reload, setReload] = useState(localStorage.getItem("reload"));
   const [currentPage, setCurrentPage] = useState(1)
   const [idCategory, setIdCategory] = useState(param.id || "all")
@@ -27,7 +33,7 @@ export default function Home() {
       children: (
         <>
         <div className={style.category}>
-          <span className={ JSON.stringify(param) === "{}" ? `${style.categoryName} ${style.categoryActive}` : `${style.categoryName}`} onClick={() => handleSelected("all", "all")}>Tất cả</span>
+          <span className={ JSON.stringify(param) === "{}" ? ` ${style.categoryActive}` : `${style.categoryName}`} onClick={() => handleSelected("all", "all")}>Tất cả</span>
         </div>
         <div className={style.filterWrap}>
             {
@@ -35,7 +41,7 @@ export default function Home() {
                 
                 return (
                   <div className={style.category} key={item.id}>
-                    <span className={param.id === item.id && JSON.stringify(param) !== "{}"  ? `${style.categoryName} ${style.categoryActive}` : `${style.categoryName}`} onClick={() => handleSelected(item.name, item.id)}>{item.name}</span>
+                    <span className={param.id === item.id && JSON.stringify(param) !== "{}"  ? ` ${style.categoryActive}` : `${style.categoryName}`} onClick={() => handleSelected(item.name, item.id)}>{item.name}</span>
                   </div>
                 )
               })
@@ -58,29 +64,38 @@ export default function Home() {
   useEffect(() => {
     window.addEventListener('storage', () => {
       const theme = localStorage.getItem('reload')
+
       setReload(theme);
     })
     if (reload === "true") {
+
+      const money = Cookies.get("money") || ""
+      setMoney(parseInt(decrypt(money), 10) )
       window.location.reload();
       localStorage.setItem("reload", "false");
       setReload("false"); 
     }
-  }, [reload]);
+    const money = Cookies.get("money") || ""
+      setMoney(parseInt(decrypt(money), 10) )
+  }, [reload, money]);
+
   return ( 
     <div className={style.wrap}>
-      <Header />
+      <Header status={product?.total_products}/>
       <div className={style.container}>
-        <Row gutter={40}>
-          <Col xxl={4} xl={4} lg={24} md={24} sm={24} xs={24}>
-          <Collapse defaultActiveKey={ isSmallScreen ? [''] : ['1']} ghost items={items} className={style.collapse}/>
-            
+        <Row gutter={40} justify="space-between" style={{flex: "1"}}>
+          <Col xxl={4} xl={6} lg={6} md={24} sm={24} xs={24}>
+            <Collapse defaultActiveKey={ isSmallScreen ? [''] : ['1']} ghost items={items} className={style.collapse}/> 
           </Col>
-          <Col xxl={20} xl={20} lg={24} md={24} sm={24} xs={24}>
-            <Row gutter={isSmallScreen ? 16 :30} justify="center" className={style.row}>
+          <Col xxl={20} xl={18} lg={18} md={24} sm={24} xs={24}>
+            <div className={style.row}>
+            <Row gutter={isSmallScreen ? 16 : 34} justify="start" className={style.row}>
               { 
-              Cookies.get("token") ?
               isFetching ? 
-              <Spin  size="large"/> : (
+              <div className={style.noti}>
+                <Spin  size="large"/>
+              </div>
+               : (
                product?.status === "success" ?
                 product?.data.map((item: IProduct, index: number) => {
                   return (
@@ -97,36 +112,28 @@ export default function Home() {
                   )
                 })
                 :
-                <div style={{textAlign: "center", paddingTop: "20px", paddingBottom: "20px"}}>
-                    <FrownOutlined style={{fontSize: "20px"}}/>
-                    <div style={{fontSize: "20px", marginTop: "20px"}}>Sản phẩm trong chuyên mục này đã bán hết</div>
+                <div className={style.noti}>
+                    <WarningFilled style={{fontSize: "30px", color: "#167fff"}}/>
+                    <div style={{fontSize: "20px", marginTop: "14px"}}>Sản phẩm trong chuyên mục này đã bán hết</div>
                 </div>
               )
-              :
-              <div style={{textAlign: "center", paddingTop: "20px", paddingBottom: "20px"}}>
-                    <FrownOutlined style={{fontSize: "20px"}}/>
-                    <div style={{fontSize: "20px", marginTop: "20px"}}>Bạn cần đăng nhập để xem sản phẩm</div>
-                </div>
               }
-          </Row>
-          {isFetching ? null : (
-            product?.status === "success" ? 
-            <Pagination style={{textAlign: "center"}} pageSize={10} defaultCurrent={currentPage} total={product?.total_products} onChange={handlePageChange} /> 
-            : null
-          )
-          }
-          
-      </Col>
-
+            </Row>
+            {isFetching ? null : (
+              product?.status === "success" ? 
+              <div style={{textAlign: "center", marginTop: "20px"}}>
+                <Pagination  pageSize={12} defaultCurrent={currentPage} total={product?.total_products} onChange={handlePageChange} /> 
+              </div>
+              : null
+            )
+            }
+            </div>
+        </Col>
         </Row>
-        
       </div>
       
     </div>
   )
 }
 
-const customExpandIcon = (panelProps: any) => {
-  const { isActive } = panelProps;
-  return isActive ? <MinusOutlined /> : <PlusOutlined />;
-};
+

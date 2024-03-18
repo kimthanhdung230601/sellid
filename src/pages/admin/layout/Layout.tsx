@@ -58,7 +58,7 @@ const Layout = () => {
           <span className={styles.text}>User</span>
         </div> */}
         <div className={styles.icon}>
-          <UserOutlined />
+          <UserOutlined className={styles.userIcon}/>
           <div className={`animate__zoomIn ${styles.userMenu}`}>
             {" "}
             <li className={styles.menuItem} onClick={()=>{navigate("/")}}>

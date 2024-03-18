@@ -4,7 +4,7 @@
 }
 
 .container{
-    padding: 140px 10.72% 71px 10.72%;
+    padding: 140px calc(10.72% + 16px) 71px calc(10.72% + 16px);
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -66,13 +66,14 @@
     margin-top: 30px;
     font-size: 20px;
     font-weight: 500;
+    color: #000;
 }
 
 .aboutEmail{
     margin-top: 12px;
     margin-bottom: 30px;
     font-size: 400;
-    color: var(--textColor);
+    color: #000;
 }
 
 .aboutSpending{
@@ -93,7 +94,7 @@
 .spendingText{
     font-size: 18px;
     font-weight: 600;
-    
+    color: #000;
 }
 
 .spending{
@@ -108,7 +109,6 @@
 }
 
 .inforWrap{
-    // margin-bottom: 30px;
     height: 100%;
     padding: 30px;
     background-color: #fff;
@@ -121,6 +121,7 @@
     margin-bottom: 10px;
     font-size: 22px;
     font-weight: 600;
+    color: #000;
 }
 
 .infor{
@@ -156,6 +157,7 @@
 
 .noti{
     font-size: 15px;
+    color: #000;
     
 }
 
@@ -173,6 +175,7 @@
     border-width: 0 0 1px 0;
     border-style: solid;
     border-color: #dfdfdf;
+    color: #000;
 }
 
 .name{
@@ -221,7 +224,7 @@
     }
 }
 
-@media only screen and (max-width: 992px) {
+@media only screen and (max-width: 1200px) {
     .inforWrap{
         margin-top: 30px;
     }
