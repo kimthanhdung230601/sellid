@@ -114,7 +114,7 @@ export default function Home() {
                 :
                 <div className={style.noti}>
                     <WarningFilled style={{fontSize: "30px", color: "#167fff"}}/>
-                    <div style={{fontSize: "20px", marginTop: "14px", color: "#000"}}>Sản phẩm trong chuyên mục này đã bán hết</div>
+                    <div style={{fontSize: "20px", marginTop: "14px", color: "#000", textAlign: "center"}}>Sản phẩm trong chuyên mục này đã bán hết</div>
                 </div>
               )
               }
