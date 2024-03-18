@@ -132,34 +132,55 @@
 
 .footerWrap {
   margin-top: 10vh;
+  padding: 4vh 0;
   display: flex;
   width: 100%;
   justify-content: space-evenly;
   align-items: center;
   // padding-right: 0 0vh;
-// border-top: 1px solid #73DCFF;
-background-color: #cef3ff;
+  // border-top: 1px solid #73DCFF;
+  background-color: #cef3ff;
   .imgLogoFooter {
     // margin-top: 3vh;
-    width: 360px;
-    height: 180px;
-    object-fit: contain;
+    width: 267px;
+    height: 92px;
+    object-fit: cover;
   }
   .iconWrap li {
     list-style-type: none;
     line-height: 4vh;
   }
-  .iconItem,.text,{
+  .iconItem,
+  .text {
     font-size: 14px;
   }
-  .copyRight{
+  .copyRight {
     font-size: 14px;
   }
-  .text{
+  .text {
     color: #1677ff;
     text-decoration: dashed;
   }
-  .copyRight{
+  .copyRight {
     // padding-right: 3vh;
+  }
+}
+@media screen and (max-width: 768px) {
+  .footerWrap {
+    flex-direction: column; /* Hiển thị các phần tử theo chiều dọc khi màn hình nhỏ hơn */
+    align-items: center; /* Căn giữa các phần tử trong footerWrap */
+  }
+
+  .iconWrap {
+    margin-top: 10px; /* Khoảng cách giữa các phần tử trong iconWrap khi xuống dòng */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .copyRight {
+    font-size: 9px;
+    padding-left: 3vh;
+    text-align: center;
+    margin-bottom: 1vh;
   }
 }
