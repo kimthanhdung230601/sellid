@@ -127,11 +127,10 @@ export default function Product(
       const bytes = CryptoJS.AES.decrypt(money, secretKey);
       const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
       setMoney(parseInt(decryptedText, 10) )
-      console.log(decryptedText)
     } 
     
   },[money])
-  console.log("product")
+
   return (
     <>
     <Col  xxl={4} xl={6} lg={6} md={8} sm={12} xs={12} className={` ${style.wrap} gutter-row`} key={id}>
