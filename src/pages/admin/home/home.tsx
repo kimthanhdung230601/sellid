@@ -85,7 +85,7 @@ const HomeAdmin = () => {
       dataIndex: "key",
       key: "key",
       align: "center",
-      render: (text, record, index) => (page - 1) * 10 + index + 1,
+      render: (text, record, index) => (page - 1) * 12 + index + 1,
     },
     {
       title: "Tên folder",
