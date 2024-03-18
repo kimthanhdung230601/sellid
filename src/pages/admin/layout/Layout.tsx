@@ -79,6 +79,12 @@ const Layout = () => {
         </div>
       </div>
       <div className={styles.headerResponsive}>
+      <div className={`${styles.imageWrapper} `}>
+          <img
+            className={styles.image}
+            src={require("../../../assets/image/logo.png")}
+          />
+        </div>
         <div
           onClick={() => handleItemClick("")}
           className={`${styles.headerItem} ${
