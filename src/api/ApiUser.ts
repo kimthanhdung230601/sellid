@@ -19,10 +19,10 @@ export interface IProductList {
 
 
 const path = {
-   getCategory: "https://taphoahinh.com/API/Categories",
-   getAllProduct: "https://taphoahinh.com/API/Products?page=",
-   getUserInfo: "https://taphoahinh.com/API/GetInfoUser",
-   buy: "https://taphoahinh.com/API/BuyProduct"
+   getCategory: "API/Categories",
+   getAllProduct: "API/Products?page=",
+   getUserInfo: "API/GetInfoUser",
+   buy: "API/BuyProduct"
 }
 
 export const getCategory = ()=>   sendGet(path.getCategory)
