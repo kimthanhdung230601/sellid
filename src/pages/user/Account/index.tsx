@@ -135,6 +135,35 @@ function Account() {
               </Col>
             </Row>
         </div>
+        <div className={styles.footerWrap}>
+        <div className={styles.imgWrapper}>
+          <img
+            className={styles.imgLogoFooter}
+            src={require("../../../assets/image/logoFooter.png")}
+          />
+        </div>
+
+        <div className={styles.iconWrap}>
+          <li>
+            <span className={styles.iconItem}>Facebook: </span>
+            <a
+              className={styles.text}
+              href="https://www.facebook.com/DamXuanNinh"
+            >
+              <span className={styles.text}>Đàm Xuân Ninh</span>
+            </a>
+          </li>
+          <li>
+            <div className={styles.iconItem}>
+              Số điện thoại liên hệ:{" "}
+              <span className={styles.text}>0978131878</span>
+            </div>
+          </li>
+          <li className={styles.copyRight}>
+            Copyright © 2024 -<b> ChippiSoft </b>- Thiết kế phần mềm/Web/App theo yêu cầu.
+          </li>
+        </div>
+      </div>
         <Modal className={styles.modal} open={isModalOpen} onOk={handleOk} cancelButtonProps={{ style: { display: 'none' } }} closeIcon={false} okText="Đóng">
               <Image style={{ marginTop: "30px"}} src={require("../../../assets/image/check.png")} preview={false} width={"20%"} />
               <div style={{fontSize: "16px", marginTop: "20px"}}>Chúc mừng bạn đã nạp thành công số tiền <span style={{color: "#69AD3A", fontWeight: "600"}}> {formatCurrency(money)} {" "} VNĐ</span></div>
