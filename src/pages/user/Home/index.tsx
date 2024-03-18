@@ -122,7 +122,7 @@ export default function Home() {
             </Row>
             {isFetching ? null : (
               product?.status === "success" ? 
-              <div style={{textAlign: "center", marginTop: "20px", height: "200px"}}>
+              <div style={{textAlign: "center", marginTop: "20px"}}>
                 <Pagination  pageSize={12} defaultCurrent={currentPage} total={product?.total_products} onChange={handlePageChange} /> 
               </div>
               : null
