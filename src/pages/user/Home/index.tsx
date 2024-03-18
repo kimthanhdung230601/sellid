@@ -77,8 +77,9 @@ export default function Home() {
     }
     const money = Cookies.get("money") || ""
       setMoney(parseInt(decrypt(money), 10) )
-  }, [reload, money]);
-
+    if(product)  console.log(product)
+  }, [reload, money, product]);
+  console.log(product)
   return ( 
     <div className={style.wrap}>
       <Header status={product?.total_products}/>
