@@ -12,9 +12,9 @@ import CryptoJS from 'crypto-js'
 export default function Product(
   {id, namefolder, category, price, description, total_products, setCurrentPage, currentPage }
   :{id:number, namefolder:string, category:string, price:number, description:string , total_products: number, setCurrentPage: any, currentPage: number}) {
-  const columns = 5; 
-  const spanValue = Math.floor(24 / columns); 
+
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [money, setMoney] = useState(0);
@@ -96,8 +96,17 @@ export default function Product(
     setOpen(true);
   };
   const handleOk1 = () => {
+    if(Cookies.get("token")) {
       setIsModalOpen(true)
       setOpen(false);
+    } else{
+      message.info("Đăng nhập để tiếp tục", 2)
+      setTimeout(()=> {
+        navigate('/dang-nhap')
+      }, 2000)
+      
+    } 
+      
   };
   const handleCancel1 = () => {
     setOpen(false);
@@ -118,12 +127,14 @@ export default function Product(
       const bytes = CryptoJS.AES.decrypt(money, secretKey);
       const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
       setMoney(parseInt(decryptedText, 10) )
-
+      console.log(decryptedText)
     } 
+    
   },[money])
+  console.log("product")
   return (
     <>
-    <Col  xxl={5} xl={5} lg={5} md={8} sm={12} xs={12} className={` ${style.wrap} gutter-row`} key={id}>
+    <Col  xxl={4} xl={6} lg={6} md={8} sm={12} xs={12} className={` ${style.wrap} gutter-row`} key={id}>
         <div style={{margin: "0 auto"}}>
             <div className={style.imageWrap}>
            <Image src={require("../../../assets/image/tep.png")} preview={false} className={style.img}/> 
@@ -152,7 +163,7 @@ export default function Product(
         onCancel={handleCancel1}
         cancelText={"Huỷ"}
         okText={(<span>Mua ngay</span>)}
-        okButtonProps={money >= price ? {disabled: false} : {disabled: true}}
+        okButtonProps={money >= price || !Cookies.get("token") ? {disabled: false} : {disabled: true}}
         className={style.modalFolder}
       >
         <div className={style.confirm}>

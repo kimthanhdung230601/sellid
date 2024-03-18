@@ -57,7 +57,7 @@ const Layout = () => {
           <span className={styles.text}>Quản lý</span>
         </div>
         <div className={styles.icon}>
-          <UserOutlined />
+          <UserOutlined className={styles.userIcon}/>
           <div className={`animate__zoomIn ${styles.userMenu}`}>
             {" "}
             <li

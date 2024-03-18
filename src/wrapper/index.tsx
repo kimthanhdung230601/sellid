@@ -41,7 +41,7 @@ export default function Wrapper() {
   };
 
   if(!routeElement) return <NotFoundPage />
-  if (location.pathname === "/" || location.pathname === "/dang-nhap") {
+  if (location.pathname === "/" || location.pathname === "/dang-nhap" || location.pathname.includes('category')) {
     return (
       <Component />
   );
