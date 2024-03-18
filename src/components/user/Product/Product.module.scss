@@ -73,7 +73,7 @@
 }
 
 .modalFolder{
-    width: 1200px !important;
+    width: 600px !important;
 }
 
 .modalFolder > div:nth-child(2) > div:nth-child(3) > div {
@@ -81,7 +81,7 @@
 }
 
 .confirm{
-    padding: 10px 30px;
+    padding: 10px;
     background-color: #fff;
 }
 
@@ -93,11 +93,21 @@
 }
 
 .confirmTitle{
-    width: 120px;
+    flex: 3;
     font-size: 16px;
     font-weight: 600;
 }
 
 .confirmValue{
+    flex: 7;
     font-size: 16px;
+}
+
+@media only screen and (max-width: 768px) {
+    .confirmTitle{
+        flex: 4;
+    }
+    .confirmValue{
+        flex: 6;
+    }
 }

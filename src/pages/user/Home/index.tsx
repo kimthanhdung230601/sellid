@@ -114,14 +114,14 @@ export default function Home() {
                 :
                 <div className={style.noti}>
                     <WarningFilled style={{fontSize: "30px", color: "#167fff"}}/>
-                    <div style={{fontSize: "20px", marginTop: "14px", color: "#000"}}>Sản phẩm trong chuyên mục này đã bán hết</div>
+                    <div className={style.notiText}>Sản phẩm trong chuyên mục này đã bán hết</div>
                 </div>
               )
               }
             </Row>
             {isFetching ? null : (
               product?.status === "success" ? 
-              <div style={{textAlign: "center", marginTop: "20px"}}>
+              <div style={{textAlign: "center", marginTop: "20px", height: "200px"}}>
                 <Pagination  pageSize={12} defaultCurrent={currentPage} total={product?.total_products} onChange={handlePageChange} /> 
               </div>
               : null
