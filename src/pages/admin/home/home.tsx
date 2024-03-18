@@ -24,6 +24,7 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import ModalDetailProducts from "../../../components/admin/modalDetail";
+import { formatCurrency } from "../../../constant/currencyFormatter";
 
 const { Search } = Input;
 interface HomeProps {}
@@ -111,22 +112,24 @@ const HomeAdmin = () => {
       dataIndex: "price",
       key: "price",
       width: 120,
+      render: (text: any) => <div style={{ color: "#008000" }}> {formatCurrency(text)}</div>,
+
     },
     {
       title: "Mô tả",
       dataIndex: "description",
       key: "description",
     },
-    {
-      title: "Tình trạng",
-      dataIndex: "sell",
-      key: "sell",
-      render: (text, record) => (
-        <span style={{ color: record.sell === "0" ? "#1677ff" : "red" }}>
-          {text === "0" ? <p>Chưa bán</p> : <p>Đã bán</p>}
-        </span>
-      ),
-    },
+    // {
+    //   title: "Tình trạng",
+    //   dataIndex: "sell",
+    //   key: "sell",
+    //   render: (text, record) => (
+    //     <span style={{ color: record.sell === "0" ? "#1677ff" : "red" }}>
+    //       {text === "0" ? <p>Chưa bán</p> : <p>Đã bán</p>}
+    //     </span>
+    //   ),
+    // },
     {
       title: "",
       key: "action",
@@ -186,12 +189,13 @@ const HomeAdmin = () => {
                 dataSource={product?.data}
                 style={{ overflowX: "auto" }}
                 pagination={false}
+                 
               />
               <Pagination
                 defaultCurrent={1}
                 onChange={onChange}
                 total={product?.total_products}
-                style={{margin:"1vh 0", float:"right"}}
+                style={{ margin: "1vh 0", float: "right" }}
               />
             </>
           </div>

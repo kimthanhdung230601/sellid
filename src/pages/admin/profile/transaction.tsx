@@ -3,6 +3,7 @@ import styles from "./styles.module.scss";
 import { useQuery } from "react-query";
 import { getTransaction } from "../../../api/admin";
 import { useEffect, useState } from "react";
+import { formatCurrency } from "../../../until/until";
 interface TransactionProps {
   id: any;
   username: any;
@@ -25,7 +26,13 @@ const Transaction = () => {
       dataIndex: "username",
       key: "username",
     },
-    { title: "Số tiền", dataIndex: "price", key: "price", width: 100 },
+    {
+      title: "Số tiền",
+      dataIndex: "price",
+      key: "price",
+      width: 130,
+      render: (text: any) => <div style={{ color: "#008000" }}>{formatCurrency(text)}</div>,
+    },
     {
       title: "Folder",
       dataIndex: "nameproduct",
@@ -35,7 +42,7 @@ const Transaction = () => {
       title: "Thời gian",
       dataIndex: "time",
       key: "time",
-      width: 170,
+      width: 180,
     },
   ];
   const { data: transaction, refetch } = useQuery(["Transaction"], () =>
@@ -56,8 +63,9 @@ const Transaction = () => {
         columns={columns}
         style={{ overflowX: "auto" }}
         pagination={false}
+        bordered 
       />
-       <Pagination
+      <Pagination
         defaultCurrent={1}
         onChange={onChange}
         total={transaction?.total_products}
