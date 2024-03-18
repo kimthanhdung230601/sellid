@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
 import Cookies from "js-cookie";
 import { logout } from "../../../api/api";
+import { Col, Row } from "antd";
 interface LayoutProps {}
 
 const Layout = () => {
@@ -21,6 +22,12 @@ const Layout = () => {
   return (
     <>
       <div className={styles.headerContainer}>
+        <div className={`${styles.imageWrapper} `}>
+          <img
+            className={styles.image}
+            src={require("../../../assets/image/logo.png")}
+          />
+        </div>
         <div
           onClick={() => handleItemClick("")}
           className={`${styles.headerItem} ${
@@ -126,6 +133,36 @@ const Layout = () => {
       <div className={styles.wraps}>
         {" "}
         <Outlet />
+      </div>
+      <div className={styles.footerWrap}>
+        <div className={styles.imgWrapper}>
+          <img
+            className={styles.imgLogoFooter}
+            src={require("../../../assets/image/logoFooter.png")}
+          />
+        </div>
+
+        <div className={styles.iconWrap}>
+          <li>
+            <span className={styles.iconItem}>Facebook: </span>
+            <a
+              className={styles.text}
+              href="https://www.facebook.com/DamXuanNinh"
+            >
+              Đàm Xuân Ninh
+            </a>
+          </li>
+          <li>
+            <div className={styles.iconItem}>
+              Số điện thoại liên hệ:{" "}
+              <span className={styles.text}>0978131878</span>
+            </div>
+          </li>
+          <li className={styles.copyRight}>
+            © Copyright 2024 -<b> ChippiSoft </b>- Thiết kế phần mềm/Web/App
+            theo yêu cầu
+          </li>
+        </div>
       </div>
     </>
   );
