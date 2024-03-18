@@ -165,8 +165,7 @@ const Layout = () => {
             </div>
           </li>
           <li className={styles.copyRight}>
-            © Copyright 2024 -<b> ChippiSoft </b>- Thiết kế phần mềm/Web/App
-            theo yêu cầu
+            Copyright © 2024 -<b> ChippiSoft </b>- Thiết kế phần mềm/Web/App theo yêu cầu.
           </li>
         </div>
       </div>
