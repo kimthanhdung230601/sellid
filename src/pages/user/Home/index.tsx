@@ -131,7 +131,35 @@ export default function Home() {
         </Col>
         </Row>
       </div>
-      
+      <div className={style.footerWrap}>
+        <div className={style.imgWrapper}>
+          <img
+            className={style.imgLogoFooter}
+            src={require("../../../assets/image/logoFooter.png")}
+          />
+        </div>
+
+        <div className={style.iconWrap}>
+          <li>
+            <span className={style.iconItem}>Facebook: </span>
+            <a
+              className={style.text}
+              href="https://www.facebook.com/DamXuanNinh"
+            >
+              <span className={style.text}>Đàm Xuân Ninh</span>
+            </a>
+          </li>
+          <li>
+            <div className={style.iconItem}>
+              Số điện thoại liên hệ:{" "}
+              <span className={style.text}>0978131878</span>
+            </div>
+          </li>
+          <li className={style.copyRight}>
+            Copyright © 2024 -<b> ChippiSoft </b>- Thiết kế phần mềm/Web/App theo yêu cầu.
+          </li>
+        </div>
+      </div>
     </div>
   )
 }

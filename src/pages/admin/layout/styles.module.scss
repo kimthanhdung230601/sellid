@@ -65,26 +65,19 @@
     z-index: 999;
     margin-left: auto; /* Di chuyển icon sang phải */
   }
-
-  .wrap{
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    position: fixed;
-    align-items: center;
-    padding: 23px calc(10.72% + 16px) ;
-    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.4);
-    background-color: #fff;
-    z-index: 100;
 }
 
-.headerItem{
-  font-size: 16px;
-  font-weight: 500;
+.wrap {
   display: flex;
+  justify-content: space-between;
+  width: 100%;
+  position: fixed;
   align-items: center;
-  color: #000;
-
+  padding: 23px 10.8333333%;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.4);
+  background-color: #fff;
+  z-index: 100;
+}
 
 .headerItem {
   font-size: 16px;
@@ -93,15 +86,15 @@
   align-items: center;
 }
 
+.name {
+  margin-left: 10px;
+  align-self: center;
+}
 
 .userIcon{
   color: #167fff;
   font-weight: bold;
   font-size: 20px;
-}
-.name {
-  margin-left: 10px;
-  align-self: center;
 }
 
 .icon{
@@ -126,21 +119,20 @@
   }
 }
 
-
-.userMenu{
+.userMenu {
   display: none;
-  margin-top: 30px;
-  width: 170px;
-  right: 0;
-  transform: translateX(10%);
-  position: absolute;
-  border-radius: 4px;
-  background-color: #f8f8f8;
-  overflow: hidden;
-  z-index: 1;
+    margin-top: 30px;
+    width: 170px;
+    right: 0;
+    transform: translateX(10%);
+    position: absolute;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    overflow: hidden;
+    z-index: 1;
 }
 
-.menuItem{
+.menuItem {
   padding: 12px 20px;
   list-style: none;
   background-color: #DEF5FD;
@@ -150,23 +142,11 @@
   }
 }
 
-.menuItem:hover{
+.menuItem:hover {
   background-color: #73DCFF;
   color: #fff;
   animation: opacity 0.5s ease;
 }
-
-@keyframes opacity {
-  from {
-    opacity: 0.4;
-    background-color: #DEF5FD;
-    color: #fff;
-  }
-  to {
-    opacity: 1;
-    background-color: #73DCFF;
-    color: #fff;
-  }
 
 .footerWrap {
   margin-top: 10vh;
@@ -209,7 +189,6 @@
     align-items: center; /* Căn giữa các phần tử trong footerWrap */
   }
 
-
   .iconWrap {
     margin-top: 10px; /* Khoảng cách giữa các phần tử trong iconWrap khi xuống dòng */
     display: flex;
@@ -224,3 +203,15 @@
   }
 }
 
+@keyframes opacity {
+  from {
+    opacity: 0.4;
+    background-color: #DEF5FD;
+    color: #fff;
+  }
+  to {
+    opacity: 1;
+    background-color: #73DCFF;
+    color: #fff;
+  }
+}

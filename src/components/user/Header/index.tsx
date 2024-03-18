@@ -16,8 +16,8 @@ const decrypt = (value: string) => {
 }
 export default function Header({ status} : {status: any}) {
   const [money, setMoney] = useState(parseInt(decrypt(moneyDecrypt), 10))
-  const [isAdmin, setIsAdmin] = useState('')
-  const handleLogOut = () => { 
+  const [admin, setIsAdmin] = useState('')
+  const handleLogOut = () => {
     logout();
     window.location.replace("/dang-nhap")
   };
@@ -44,7 +44,7 @@ export default function Header({ status} : {status: any}) {
         Cookies.get("token") ? 
         <div  style={{display: "flex", alignItems: "end"}}> 
           <li className={style.headerItem}>
-            Số dư: <span style={{color: "#69AD3A", marginLeft: "8px", marginRight: "20px"}}>{money ? formatCurrency(money) : "loadding" } {" "} VNĐ</span>
+            Số dư: <span style={{color: "#69AD3A", marginLeft: "8px", marginRight: "20px"}}>{formatCurrency(money) ? formatCurrency(money) : "loading..."} {" "} VNĐ</span>
           </li>
           <div className={style.icon}>
             <UserOutlined className={style.userIcon} />
@@ -59,7 +59,7 @@ export default function Header({ status} : {status: any}) {
                 : null
               }
               {
-                isAdmin === "1" ? 
+                admin === "1" ? 
                 <li className={style.menuItem}>
                   <Link to={"/admin"} className={`${style.menuItemLink}`}>
                     Admin
