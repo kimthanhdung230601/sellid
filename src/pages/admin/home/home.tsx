@@ -85,7 +85,7 @@ const HomeAdmin = () => {
       dataIndex: "key",
       key: "key",
       align: "center",
-      render: (text, record, index) => (page - 1) * 10 + index + 1,
+      render: (text, record, index) => (page - 1) * 12 + index + 1,
     },
     {
       title: "Tên folder",
@@ -112,8 +112,9 @@ const HomeAdmin = () => {
       dataIndex: "price",
       key: "price",
       width: 120,
-      render: (text: any) => <div style={{ color: "#008000" }}> {formatCurrency(text)}</div>,
-
+      render: (text: any) => (
+        <div style={{ color: "#008000" }}> {formatCurrency(text)}</div>
+      ),
     },
     {
       title: "Mô tả",
@@ -189,12 +190,12 @@ const HomeAdmin = () => {
                 dataSource={product?.data}
                 style={{ overflowX: "auto" }}
                 pagination={false}
-                 
               />
               <Pagination
                 defaultCurrent={1}
                 onChange={onChange}
                 total={product?.total_products}
+                pageSize={12}
                 style={{ margin: "1vh 0", float: "right" }}
               />
             </>
