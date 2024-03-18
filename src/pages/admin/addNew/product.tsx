@@ -237,7 +237,7 @@ const Product = () => {
               className={styles.btn}
               loading={loading}
             >
-              Đăng tin
+              Đăng ảnh
             </Button>
           </Form.Item>
         </Form>
