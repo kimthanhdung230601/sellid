@@ -1,8 +1,9 @@
 import { useQuery } from "react-query";
 import styles from "./styles.module.scss";
 import { getListBank } from "../../../api/admin";
-import { Table, TableColumnsType } from "antd";
+import { Pagination, Table, TableColumnsType } from "antd";
 import { useEffect, useState } from "react";
+import { formatCurrency } from "../../../until/until";
 interface BankProps {
   id: any;
   tid: any;
@@ -13,7 +14,7 @@ interface BankProps {
 }
 
 const Bank = () => {
-  const [pagination, setPagination] = useState("1");
+  const [pagination, setPagination] = useState(1);
   const { data: listBanks, refetch } = useQuery(["listBank"], () =>
     getListBank()
   );
@@ -25,14 +26,20 @@ const Bank = () => {
       title: "ID",
       dataIndex: "key",
       key: "key",
-      render: (text, record, index) => index + 1,
+      render: (text, record, index) => (pagination - 1) * 10 + index + 1,
     },
     {
-      title: "Họ tên",
+      title: "Username",
       dataIndex: "username",
       key: "username",
     },
-    { title: "Số lượng", dataIndex: "amount", key: "amount", width: 100 },
+    {
+      title: "Số tiền nạp",
+      dataIndex: "amount",
+      key: "amount",
+      width: 130,
+      render: (text: any) => <div style={{ color: "#008000" }}> {formatCurrency(text)}</div>,
+    },
     {
       title: "Mã giao dịch",
       dataIndex: "tid",
@@ -47,7 +54,7 @@ const Bank = () => {
       title: "Thời gian",
       dataIndex: "time",
       key: "time",
-      width: 120,
+      width: 170,
     },
   ];
   useEffect(() => {
@@ -60,11 +67,14 @@ const Bank = () => {
         dataSource={listBanks?.data}
         columns={columns}
         style={{ overflowX: "auto" }}
-        pagination={{
-          defaultCurrent: 1,
-          onChange: onChange,
-          total: listBanks?.total_products,
-        }}
+        pagination={false}
+        bordered 
+      />
+      <Pagination
+        defaultCurrent={1}
+        onChange={onChange}
+        total={listBanks?.total_products}
+        style={{ margin: "1vh 0", float: "right" }}
       />
     </>
   );
