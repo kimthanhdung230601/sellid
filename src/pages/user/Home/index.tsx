@@ -19,10 +19,12 @@ export default function Home() {
   document.title = "Tạp hoá hình"
   const navigate = useNavigate();
   const param = useParams()
+  const page = new URLSearchParams(useLocation().search)
+  const location = useLocation()
   const isSmallScreen = useMediaQuery({ maxWidth: 992 });
   const [money, setMoney] = useState(0)
   const [reload, setReload] = useState(localStorage.getItem("reload"));
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(page.get('page') || "1")
   const [idCategory, setIdCategory] = useState(param.id || "all")
   const {data: category} = useQuery(['category'], ()=> getCategory())
   const {data: product, isFetching} = useQuery(['product', idCategory, currentPage], ()=> getAllProduct(currentPage, idCategory))
@@ -52,14 +54,22 @@ export default function Home() {
       ),
     },
   ]
-  const handlePageChange =(page: number) => {
-    setCurrentPage(page)
+  const handlePageChange =(pageChange: number) => {
+    setCurrentPage(pageChange.toString())
+    page.set('page', pageChange.toString())
+    const newPage = page.get("page");
+    navigate(location.pathname + (newPage ? `?page=${newPage}` : ''))
   }
   const handleSelected = (name: string, id:string) => {
     setIdCategory(id)
-    setCurrentPage(1)
-    if(name === "all") navigate(`/`);
-    else navigate(`/category/${id}/${name}`);
+    setCurrentPage("1")
+    if(name === "all") navigate(`/?page=1`);
+    else navigate(`/category/${id}/${name}?page=1`);
+  }
+  const setPrevPage = () => {
+    const newPage = parseInt(currentPage, 10) - 1
+    setCurrentPage(newPage.toString())
+    navigate(location.pathname + (newPage ? `?page=${newPage}` : ''))
   }
   useEffect(() => {
     window.addEventListener('storage', () => {
@@ -77,12 +87,11 @@ export default function Home() {
     }
     const money = Cookies.get("money") || ""
       setMoney(parseInt(decrypt(money), 10) )
-    if(product)  console.log(product)
-  }, [reload, money, product]);
-  console.log(product)
+   
+  }, [reload, money]);
   return ( 
     <div className={style.wrap}>
-      <Header status={product?.total_products}/>
+      <Header />
       <div className={style.container}>
         <Row gutter={40} justify="space-between" style={{flex: "1"}}>
           <Col xxl={4} xl={6} lg={6} md={24} sm={24} xs={24}>
@@ -107,8 +116,8 @@ export default function Home() {
                     price={item.price}
                     description={item.description}
                     total_products = {product?.data.length}
-                    setCurrentPage={setCurrentPage}
-                    currentPage={currentPage}
+                    setCurrentPage={setPrevPage}
+                    currentPage={parseInt(currentPage, 10)}
                 />
                   )
                 })
@@ -123,7 +132,7 @@ export default function Home() {
             {isFetching ? null : (
               product?.status === "success" ? 
               <div style={{textAlign: "center", marginTop: "20px"}}>
-                <Pagination  pageSize={12} defaultCurrent={currentPage} total={product?.total_products} onChange={handlePageChange} /> 
+                <Pagination  pageSize={12} defaultCurrent={parseInt(currentPage, 10)} total={product?.total_products} onChange={handlePageChange} /> 
               </div>
               : null
             )
