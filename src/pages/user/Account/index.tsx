@@ -17,9 +17,9 @@ function Account() {
   const [money, setMoney] = useState(0)
   const [reload, setReload] = useState(localStorage.getItem("reload"));
   const {data: userInfor, refetch, isFetching} = useQuery(["userInfo"], () => getUserInfo(),{
-    staleTime: 3000,
+    staleTime: 60000,
     cacheTime: Infinity,
-    refetchInterval: 3000, 
+    refetchInterval: 60000, 
     enabled: Cookies.get("token") !== undefined,
     onSuccess: (fetchedData) => {
       const money = Cookies.get("money") as string
