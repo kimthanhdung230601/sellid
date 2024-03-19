@@ -148,10 +148,10 @@ const Product = () => {
     }
   };
   return (
-    <>
-      <h1 className={styles.title}>THÊM FOLDER</h1>
-      <div className={styles.formWrap}>
-        <Form layout="vertical" onFinish={onFinish} form={form}>
+    <div style={{background:"#FFF"}}>
+      <h1 className={styles.title} >THÊM FOLDER</h1>
+      <div className={styles.formWrap} style={{background:"#FFF"}}>
+        <Form layout="vertical" onFinish={onFinish} form={form} style={{color:"#000"}}>
           <Row gutter={16}>
             <Col xs={24} sm={12}>
               <Form.Item
@@ -242,7 +242,7 @@ const Product = () => {
           </Form.Item>
         </Form>
       </div>
-    </>
+    </div>
   );
 };
 

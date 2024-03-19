@@ -21,7 +21,10 @@ const Layout = () => {
   };
   return (
     <>
-      <div className={styles.headerContainer}>
+      <div
+        className={styles.headerContainer}
+        style={{ backgroundColor: "#FFF" }}
+      >
         <div className={`${styles.imageWrapper} `}>
           <img
             className={styles.image}
@@ -57,7 +60,7 @@ const Layout = () => {
           <span className={styles.text}>Quản lý</span>
         </div>
         <div className={styles.icon}>
-          <UserOutlined className={styles.userIcon}/>
+          <UserOutlined className={styles.userIcon} />
           <div className={`animate__zoomIn ${styles.userMenu}`}>
             {" "}
             <li
@@ -78,8 +81,11 @@ const Layout = () => {
           </div>
         </div>
       </div>
-      <div className={styles.headerResponsive}>
-      <div className={`${styles.imageWrapper} `}>
+      <div
+        className={styles.headerResponsive}
+        style={{ backgroundColor: "#FFF" }}
+      >
+        <div className={`${styles.imageWrapper} `}>
           <img
             className={styles.image}
             src={require("../../../assets/image/logo.png")}
@@ -136,7 +142,7 @@ const Layout = () => {
           </div>
         </div>
       </div>
-      <div className={styles.wraps}>
+      <div className={styles.wraps} style={{ backgroundColor: "#000" }}>
         {" "}
         <Outlet />
       </div>
@@ -150,22 +156,28 @@ const Layout = () => {
 
         <div className={styles.iconWrap}>
           <li>
-            <span className={styles.iconItem}>Facebook: </span>
+            <span className={styles.iconItem} style={{ color: "#000" }}>
+              Facebook:{" "}
+            </span>
             <a
               className={styles.text}
               href="https://www.facebook.com/DamXuanNinh"
             >
-              Đàm Xuân Ninh
+              <span>Đàm Xuân Ninh</span>
             </a>
           </li>
           <li>
             <div className={styles.iconItem}>
-              Số điện thoại liên hệ:{" "}
+              <span style={{ color: "#000" }}> Số điện thoại liên hệ:</span>
+
               <span className={styles.text}>0978131878</span>
             </div>
           </li>
           <li className={styles.copyRight}>
-            Copyright © 2024 -<b> ChippiSoft </b>- Thiết kế phần mềm/Web/App theo yêu cầu.
+            <span style={{ color: "#000" }}>
+              Copyright © 2024 -<b> ChippiSoft </b>- Thiết kế phần mềm/Web/App
+              theo yêu cầu.
+            </span>
           </li>
         </div>
       </div>

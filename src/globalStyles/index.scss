@@ -17,6 +17,7 @@ body {
   margin: 0;
   font-family: "Inter" !important;
   font-family: "Inter" !important;
+  background-color: #ffff !important;
 }
 
 a {
@@ -54,12 +55,12 @@ h3 {
   transform: translate(-50%, -50%);
   // opacity: 0.4 !important;
 }
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
-}
+// @media (prefers-color-scheme: dark) {
+//   html {
+//     color-scheme: dark;
+//   }
+//   body {
+//     // color: white;
+//     // background: black;
+//   }
+// }
