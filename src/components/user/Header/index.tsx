@@ -69,20 +69,20 @@ export default function Header() {
             <div className={`animate__zoomIn ${style.userMenu}`}>
               {
                 Cookies.get("token") ? 
-                <li className={style.menuItem}>
-                  <Link to={"/tai-khoan"} className={`${style.menuItemLink}`}>
+                <Link to={"/tai-khoan"} >
+                  <li className={style.menuItem}>
                     Tài khoản
-                  </Link>
-                </li>
+                  </li>
+                </Link>
                 : null
               }
               {
                 admin === "1" ? 
-                <li className={style.menuItem}>
-                  <Link to={"/admin"} className={`${style.menuItemLink}`}>
+                <Link to={"/admin"} >
+                  <li className={style.menuItem}>
                     Admin
-                  </Link>
-                </li>
+                  </li>
+                </Link>
                 : null
               }
               
