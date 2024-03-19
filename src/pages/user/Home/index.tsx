@@ -151,22 +151,28 @@ export default function Home() {
 
         <div className={style.iconWrap}>
           <li>
-            <span className={style.iconItem}>Facebook: </span>
+            <span className={style.iconItem} style={{ color: "#000" }}>
+              Facebook:{" "}
+            </span>
             <a
               className={style.text}
               href="https://www.facebook.com/DamXuanNinh"
             >
-              <span className={style.text}>Đàm Xuân Ninh</span>
+              <span>Đàm Xuân Ninh</span>
             </a>
           </li>
           <li>
             <div className={style.iconItem}>
-              Số điện thoại liên hệ:{" "}
+              <span style={{ color: "#000" }}> Số điện thoại liên hệ:</span>
+
               <span className={style.text}>0978131878</span>
             </div>
           </li>
           <li className={style.copyRight}>
-            Copyright © 2024 -<b> ChippiSoft </b>- Thiết kế phần mềm/Web/App theo yêu cầu.
+            <span style={{ color: "#000" }}>
+              Copyright © 2024 -<b> ChippiSoft </b>- Thiết kế phần mềm/Web/App
+              theo yêu cầu.
+            </span>
           </li>
         </div>
       </div>
