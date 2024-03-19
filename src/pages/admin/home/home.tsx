@@ -173,15 +173,18 @@ const HomeAdmin = () => {
 
   return (
     <>
-      <div className={styles.tablWrap}>
+      <div className={styles.tablWrap} style={{ backgroundColor: "#FFF", color:"#000" }}>
         <Spin spinning={isFetching}>
           {" "}
           <div className={styles.btn}>
-            <Button type="primary" onClick={() => navigate("./them-moi")}>
+            <Button type="primary" onClick={() => navigate("./them-moi")} style={{color:"#FFF"}}>
               Thêm mới
             </Button>
           </div>
-          <div className={styles.table}>
+          <div
+            className={styles.table}
+            style={{ backgroundColor: "#FFF", color: "#000" }}
+          >
             {" "}
             <>
               {" "}

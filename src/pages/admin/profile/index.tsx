@@ -6,7 +6,7 @@ interface ProfileProps {}
 const Profile = () => {
   document.title = "Quản lý"
   return (
-    <>
+    <div style={{background:"#FFF"}}>
       <h1 className={styles.title}>QUẢN LÝ</h1>
       {/* <h3 className={styles.title}>Tài khoản cá nhân</h3> */}
       {/* <div className={styles.profileWrap}>
@@ -75,7 +75,7 @@ const Profile = () => {
       <div className={styles.transactionWrapper}>
         <Transaction />
       </div>
-    </>
+    </div>
   );
 };
 

@@ -16,7 +16,7 @@ const LogIn = () => {
         <div className={styles.titleGroup}>
           <h3
             className={`${styles.title} ${
-              selected === "login" ? styles.selected : ""
+              selected === "login" ? styles.selected : styles.notSelect
             }`}
             onClick={() => handleClickSelect("login")}
           >
@@ -24,7 +24,7 @@ const LogIn = () => {
           </h3>
           <h3
             className={`${styles.title} ${
-              selected === "register" ? styles.selected : ""
+              selected === "register" ? styles.selected : styles.notSelect
             }`}
             onClick={() => handleClickSelect("register")}
           >
