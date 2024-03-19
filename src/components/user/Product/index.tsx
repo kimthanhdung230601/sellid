@@ -17,29 +17,28 @@ export default function Product(
   const navigate = useNavigate()
   const [open, setOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [money, setMoney] = useState(0);
+  const [money, setMoney] = useState(Cookies.get("money") || "0");
   const buyProduct = useMutation(
     async (payload: any) => await buy(payload),
     {
-      onSettled: async (data: any) => {
+      onSuccess: async (data: any) => {
         if(data.status === "success") {
           handleDownload(data.data[0].image)
           message.success("Mua thành công! Thư mục sẽ được tải xuống trong giây lát!")
-          setTimeout(()=> {
-            if(total_products === 1 && currentPage !== 1) {
-              setCurrentPage(1)
-            } else {
-              queryClient.invalidateQueries('product')
-              queryClient.invalidateQueries('userInfo')
-              localStorage.setItem("reload", "true")
-            } 
-          }, 1000)
-          
-          
+          if(total_products === 1 && currentPage !== 1) {
+            setCurrentPage()
+          } 
+            queryClient.invalidateQueries('product')
+            queryClient.invalidateQueries('headerInfor')
+            localStorage.setItem("reload", "true")
         } else if(data.status === "failed") {
           message.error("Có lỗi xảy ra, vui lòng thử lại sau")
           window.location.reload()
         }
+      },
+      onError: () => {
+        message.error("Có lỗi xảy ra, vui lòng thử lại sau")
+        window.location.reload()
       }
     }
   )
@@ -121,16 +120,12 @@ export default function Product(
     setIsModalOpen(false);
   };
   useEffect(()=>{
-    const money = Cookies.get("money")
-    if(money){
-      const secretKey = process.env.REACT_APP_SECRET_KEY as string
-      const bytes = CryptoJS.AES.decrypt(money, secretKey);
-      const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
-      setMoney(parseInt(decryptedText, 10) )
-    } 
-    
+    const money = Cookies.get("money") || ""
+    const secretKey = process.env.REACT_APP_SECRET_KEY as string
+    const bytes = CryptoJS.AES.decrypt(money, secretKey);
+    const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
+    setMoney(decryptedText) 
   },[money])
-
   return (
     <>
     <Col  xxl={4} xl={6} lg={6} md={8} sm={12} xs={12} className={` ${style.wrap} gutter-row`} key={id}>
@@ -143,10 +138,7 @@ export default function Product(
             <span className={style.title}>Thư mục: </span>
             <span className={style.value}>{namefolder}</span>
         </div>
-        {/* <div className={style.item}>
-            <span className={style.title}>Chuyên mục: </span>
-            <span className={style.value}>{category}</span>
-        </div> */}
+      
         <div className={style.item}>
             <span className={style.title}>Giá: </span>
             <span className={style.value}>{formatCurrency(price)} {" "} VNĐ</span>
@@ -162,7 +154,7 @@ export default function Product(
         onCancel={handleCancel1}
         cancelText={"Huỷ"}
         okText={(<span>Mua ngay</span>)}
-        okButtonProps={money >= price || !Cookies.get("token") ? {disabled: false} : {disabled: true}}
+        okButtonProps={parseInt(money, 10) >= price || !Cookies.get("token") ? {disabled: false} : {disabled: true}}
         className={style.modalFolder}
       >
         <div className={style.confirm}>

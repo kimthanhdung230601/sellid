@@ -28,7 +28,7 @@ const path = {
 export const getCategory = ()=>   sendGet(path.getCategory)
 
 
-export const getAllProduct =  (currentPage: number, category: string) : Promise<IProductList> => {
+export const getAllProduct =  (currentPage: string, category: string) : Promise<IProductList> => {
     if(category === "all"){
         return sendGet(path.getAllProduct + currentPage)
     } 

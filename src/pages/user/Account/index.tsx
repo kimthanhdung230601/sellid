@@ -1,6 +1,6 @@
 import { CheckCircleOutlined } from "@ant-design/icons";
 import styles from "./Account.module.scss";
-import { Col, Image, Modal, Row, Table, Spin } from "antd";
+import { Col, Image, Modal, Row, message } from "antd";
 import Header from "../../../components/user/Header";
 import { formatCurrency } from "../../../constant/currencyFormatter";
 import { useQuery } from "react-query";
@@ -17,19 +17,13 @@ function Account() {
   const [money, setMoney] = useState(0)
   const [reload, setReload] = useState(localStorage.getItem("reload"));
   const {data: userInfor, refetch, isFetching} = useQuery(["userInfo"], () => getUserInfo(),{
-    staleTime: 60000,
+    staleTime: 3000,
     cacheTime: Infinity,
-    refetchInterval: 60000, 
+    refetchInterval: 3000, 
     enabled: Cookies.get("token") !== undefined,
     onSuccess: (fetchedData) => {
       const money = Cookies.get("money") as string
       const secretKey = process.env.REACT_APP_SECRET_KEY as string
-
-      const saveMoney = CryptoJS.AES.encrypt(
-        fetchedData?.data[0].money,
-        secretKey
-      ).toString();
-      Cookies.set("money", saveMoney)
       if(money){
         const bytes = CryptoJS.AES.decrypt(money, secretKey);
         const decryptedMoney= bytes.toString(CryptoJS.enc.Utf8);
@@ -38,9 +32,19 @@ function Account() {
           setIsModalOpen(true)
           setMoney(result)
           localStorage.setItem("reload", "true")
+          
         } 
       } 
+      const saveMoney = CryptoJS.AES.encrypt(
+        fetchedData?.data[0].money,
+        secretKey
+      ).toString();
+      Cookies.set("money", saveMoney)
     },
+    onError: () => {
+      message.error("Có lỗi xảy ra, vui lòng thử lại sau")
+      window.location.reload()
+    }
   })
   const isFirstFetchFetching = isFetching && !userInfor;
   const handleOk = () => {
@@ -59,7 +63,7 @@ function Account() {
   }, [reload]);
   return (
     <div className={styles.wrapper}>
-        <Header status={userInfor?.data[0].money}/>
+        <Header/>
         <div className={styles.container}>
             <Row gutter={40} className={styles.row}>
               <Col span={10} xxl={10} xl={10} lg={24} md={24} sm={24} xs={24}>
