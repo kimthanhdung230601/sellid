@@ -147,13 +147,6 @@ const Layout = () => {
         <Outlet />
       </div>
       <div className={styles.footerWrap}>
-        <div className={styles.imgWrapper}>
-          <img
-            className={styles.imgLogoFooter}
-            src={require("../../../assets/image/logoFooter.png")}
-          />
-        </div>
-
         <div className={styles.iconWrap}>
           <li className={styles.copyRight}>
             <span style={{ color: "#000" }}>
