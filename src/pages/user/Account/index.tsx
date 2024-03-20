@@ -148,23 +148,21 @@ function Account() {
         </div>
 
         <div className={styles.iconWrap}>
-          <li>
-            <span className={styles.iconItem}>Facebook: </span>
-            <a
-              className={styles.text}
-              href="https://www.facebook.com/DamXuanNinh"
-            >
-              <span className={styles.text}>Đàm Xuân Ninh</span>
-            </a>
-          </li>
-          <li>
-            <div className={styles.iconItem}>
-              Số điện thoại liên hệ:{" "}
-              <span className={styles.text}>0978131878</span>
-            </div>
-          </li>
           <li className={styles.copyRight}>
-            Copyright © 2024 -<b> ChippiSoft </b>- Thiết kế phần mềm/Web/App theo yêu cầu.
+            <span style={{ color: "#000" }}>
+              Copyright © 2024 -
+              <b>
+                {" "}
+                <a
+                  className={styles.text}
+                  href="https://www.facebook.com/DamXuanNinh"
+                  style={{ color: "#000" }}
+                >
+                  ChippiSoft
+                </a>{" "}
+              </b>
+              - Thiết kế phần mềm/Web/App theo yêu cầu.
+            </span>
           </li>
         </div>
       </div>
