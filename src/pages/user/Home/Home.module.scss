@@ -1,15 +1,12 @@
 .wrap{
     overflow-x: hidden;
-    // height: 100%;
+    min-height: 100vh;
+    position: relative;
 }
 
 .container{
-    padding: 10% 10%;
-    min-height: 100vh;
+    padding: 9% 10% 0 10%;
     background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 
@@ -40,6 +37,7 @@
 }
 
 .categoryName{
+    
     line-height: 30px;
     list-style: none;
     padding-left: 0;
@@ -92,20 +90,21 @@
     margin-right: 4px; 
     border-width: 6px 10px 6px 10px ; 
 }
+.rowWrap{
+    min-height: 64vh;
+}
 
 .row{
-    height: 100%;
+    flex: 1;
 }
 
 .noti{
-    width: 100%;
-    // min-height: 256px;
-    height: 100%;
     display: flex;
     flex: 1;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    min-height: 64vh;
 }
 
 .notiText{
@@ -117,6 +116,9 @@
 }
 
 .footerWrap {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
     margin-top: 10vh;
     padding: 2.7vh 0;
     display: flex;
@@ -172,15 +174,48 @@
     }
 }
 
+@media only screen and (max-width: 1600px) {
+    .row{
+        margin-top: 30px;
+        flex-wrap: wrap;
+    }
+    .container{
+        padding: 9% 10% 0 10%;
+    }
+  
+    .footerWrap{
+        position: relative;
+    }
+}
+
+@media only screen and (max-width: 1400px) {
+    .row{
+        margin-top: 30px;
+        flex-wrap: wrap;
+    }
+    .container{
+        padding: 9% 10% 0 10%;
+    }
+  
+    .footerWrap{
+        position: relative;
+    }
+
+    .rowWrap {
+        min-height: 70vh;
+    }
+}
+
 @media only screen and (max-width: 1200px) {
     .row{
         margin-top: 30px;
         flex-wrap: wrap;
     }
     .container{
-        padding: 140px calc(8%) ;
-        min-height: 70vh;
+        padding: 9% 10% 0 10%;
+        
     }
+    
 }
   
 
@@ -190,9 +225,10 @@
         flex-wrap: wrap;
     }
     .container{
-        padding: 100px 4%;
+        padding: 100px 4% 0 4%;
         justify-content: start;
     }
+
 }
 
 @media only screen and (max-width: 768px) {
@@ -201,8 +237,8 @@
         flex-wrap: wrap;
     }
     .container{
-        padding: 100px 4%;
-        min-height: 56vh;
+        padding: 100px 4% 0 4%;
     }
+  
 }
 
