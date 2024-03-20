@@ -108,7 +108,7 @@ export default function Home() {
     <div className={style.wrap}>
       <Header />
       <div className={style.container}>
-        <Row gutter={40} justify="space-between" style={{ flex: "1" }}>
+        <Row gutter={40} justify="space-between">
           <Col xxl={4} xl={6} lg={6} md={24} sm={24} xs={24}>
             <Collapse
               defaultActiveKey={isSmallScreen ? [""] : ["1"]}
@@ -118,7 +118,7 @@ export default function Home() {
             />
           </Col>
           <Col xxl={20} xl={18} lg={18} md={24} sm={24} xs={24}>
-            <div className={style.row}>
+            <div className={style.rowWrap}>
               <Row
                 gutter={isSmallScreen ? 16 : 34}
                 justify="start"
