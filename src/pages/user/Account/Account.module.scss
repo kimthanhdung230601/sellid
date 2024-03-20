@@ -188,7 +188,7 @@
 
 .footerWrap {
     margin-top: 10vh;
-    padding: 4vh 0;
+    padding: 2.7vh 0;
     display: flex;
     width: 100%;
     justify-content: space-evenly;
@@ -199,7 +199,7 @@
     .imgLogoFooter {
       // margin-top: 3vh;
       width: 267px;
-      height: 92px;
+      height: 100%;
       object-fit: cover;
     }
     .iconWrap li {
@@ -209,20 +209,19 @@
     .iconItem,
     .text {
       font-size: 14px;
+  
     }
     .copyRight {
       font-size: 14px;
     }
     .text {
-      color: #1677ff;
+    color: #000;
       text-decoration: dashed;
-      font-weight: 700;
     }
     .copyRight {
       // padding-right: 3vh;
     }
-}
-
+  }
 @media screen and (max-width: 768px) {
     .footerWrap {
         flex-direction: column; /* Hiển thị các phần tử theo chiều dọc khi màn hình nhỏ hơn */

@@ -155,28 +155,20 @@ const Layout = () => {
         </div>
 
         <div className={styles.iconWrap}>
-          <li>
-            <span className={styles.iconItem} style={{ color: "#000" }}>
-              Facebook:{" "}
-            </span>
-            <a
-              className={styles.text}
-              href="https://www.facebook.com/DamXuanNinh"
-            >
-              <span>Đàm Xuân Ninh</span>
-            </a>
-          </li>
-          <li>
-            <div className={styles.iconItem}>
-              <span style={{ color: "#000" }}> Số điện thoại liên hệ:</span>
-
-              <span className={styles.text}>0978131878</span>
-            </div>
-          </li>
           <li className={styles.copyRight}>
             <span style={{ color: "#000" }}>
-              Copyright © 2024 -<b> ChippiSoft </b>- Thiết kế phần mềm/Web/App
-              theo yêu cầu.
+              Copyright © 2024 -
+              <b>
+                {" "}
+                <a
+                  className={styles.text}
+                  href="https://www.facebook.com/DamXuanNinh"
+                  style={{ color: "#000" }}
+                >
+                  ChippiSoft
+                </a>{" "}
+              </b>
+              - Thiết kế phần mềm/Web/App theo yêu cầu.
             </span>
           </li>
         </div>
